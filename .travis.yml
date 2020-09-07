@@ -13,7 +13,7 @@ services:
 before_install:
 - mvn clean
 - echo "$DOCKER_PASSWORD" | docker login  -u "$DOCKER_USERNAME" --password-stdin
-- docker pull openjdk:openjdk11
+- docker pull openjdk11:jre-11.0.6_10-alpine
 
 script:
 #We avoid this error :" the job exceeded the maximum log length and has been terminated "
