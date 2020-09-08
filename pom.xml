@@ -11,7 +11,7 @@
 	<groupId>com.eng.stream.hackathon</groupId>
 	<artifactId>bookmark</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>bookmark</name>
 	<description>Project to handle service part of book marks management</description>
 

@@ -11,10 +11,10 @@ VOLUME /tmp
 EXPOSE 8080
 
 # The application's jar file
-ARG WAR_FILE
+ARG JAR_FILE
 
 # Add the application's jar to the container
-ADD ${WAR_FILE} app.war
+ADD ${JAR_FILE} app.jar
 
 # Run the war file 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.war"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
