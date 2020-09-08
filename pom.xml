@@ -120,6 +120,21 @@
 			    </executions>
 		    
        		</plugin> -->
+       		
+			<!-- Useful for Heroku Deployment -->
+			
+			<plugin>
+		      <groupId>com.heroku.sdk</groupId>
+		      <artifactId>heroku-maven-plugin</artifactId>
+		      <version>2.0.11</version>
+		      <configuration>
+		        <appName>cicd-spring-boot-java-app</appName>
+		        <processTypes>
+		          <web>java $JAVA_OPTS -jar -Dserver.port=$PORT ${full-artifact-name}</web>
+		        </processTypes>
+		      </configuration>
+      		</plugin> 
+      		
 		</plugins>
 	</build>
 
