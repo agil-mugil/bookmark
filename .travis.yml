@@ -6,14 +6,14 @@ install:
 - mvn -N io.takari:maven:wrapper
 - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
-services:
+#services:
 #Linking Travis CI and Docker
-- docker
+#- docker
 
-before_install:
-- mvn clean
-- echo "$DOCKER_PASSWORD" | docker login  -u "$DOCKER_USERNAME" --password-stdin
-- docker pull adoptopenjdk/openjdk11
+#before_install:
+#- mvn clean
+#- echo "$DOCKER_PASSWORD" | docker login  -u "$DOCKER_USERNAME" --password-stdin
+#- docker pull adoptopenjdk/openjdk11
 
 script:
 #We avoid this error :" the job exceeded the maximum log length and has been terminated "
