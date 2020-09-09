@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 class GroupTests {
 
-	Class<Group> groupClass = Group.class; 
+	public Class<Group> groupClass = Group.class; 
 	
 	@Test
 	void mustHaveEntityAnnotation() {

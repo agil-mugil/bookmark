@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Group {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="GROUPID", nullable=false, unique=true)
 	 private Long groupId;
 	
@@ -49,6 +49,16 @@ public class Group {
 	@Column(name="OPEDEL", length=100, nullable=true, unique=false)
 	 private String eraser;
 	 
+	public Group() {
+	}
+	
+	public Group(String groupType, String groupValue, String creator, Date createdDate) {
+		super();
+		this.groupType = groupType;
+		this.groupValue = groupValue;
+		this.creator = creator;
+		this.createdDate = createdDate;
+	}
 	public Long getGroupId() {
 		return groupId;
 	}
