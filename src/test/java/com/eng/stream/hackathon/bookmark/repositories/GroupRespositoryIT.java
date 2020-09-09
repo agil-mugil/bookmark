@@ -63,7 +63,7 @@ public class GroupRespositoryIT {
 	
 	@Test
 	@Rollback(false)
-	@Order(5)
+	@Order(7)
 	public void testDeleteProduct() {
 		String groupValue = "SNO";
 		List<Group> groupList = groupRepository.findByGroupValue(groupValue);
@@ -77,5 +77,25 @@ public class GroupRespositoryIT {
 		assertTrue(dataPresentBeforeDelete);
 		assertFalse(dataNotPresentAfterDelete);
 	}
+	
+	@Test
+	@Rollback(false)
+	@Order(5)
+	public void testSoftDelete() {
+		String groupValue = "SNO";
+		List<Group> groupList = groupRepository.findByGroupValue(groupValue);
+		Group existingGroup = groupList.stream()
+	      .filter(Group -> groupValue.contains(groupValue)).findFirst().get();
+		
+		existingGroup.setEraser("pmurugesan2012@gmail.com");
+		Group deleteGroup = groupRepository.save(existingGroup);
+		assertEquals("pmurugesan2012@gmail.com", deleteGroup.getEraser());
+	}
 
+	@Test
+	@Order(6)
+	public void testListActiveGroups() {
+		List<Group> groups = groupRepository.findByEraserIsNull();
+		assertThat(groups.size()).isEqualTo(0);
+	}
 }
