@@ -12,6 +12,9 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * @Author Prabhu MURUGESAN
  */
@@ -19,33 +22,42 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "TBOOKMARKGROUPSENG")
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+@ApiModel(description = "Provides details about  a group")
 public class Group {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@ApiModelProperty(notes = "Unique id of a group")
 	@Column(name="GROUPID", nullable=false, unique=true)
 	 private Long groupId;
 	
+	@ApiModelProperty(notes = "Group type details like TRIBE, FT, APPLICATION/PLATFORM")
 	@Column(name="GROUPTYPE", length=15, nullable=false, unique=false)
 	 private String groupType;
 	
+	@ApiModelProperty(notes = "Group value holds the type of group based on ")
 	@Column(name="GROUPVALUE", length=30, nullable=false, unique=false)
 	 private String groupValue;
 	
+	@ApiModelProperty(hidden = true)
 	@Column(name="GROUPCREATOR", length=100, nullable=false, unique=false)
 	 private String creator;
 	
+	@ApiModelProperty(hidden = true)
 	@Column(name="OPEMOD", length=100, nullable=true, unique=false)
 	 private String modifier;
 	
+	@ApiModelProperty(hidden = true)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy")
 	@Column(name="DATCRE", nullable=false, unique=false)
 	 private Date createdDate;
 	
+	@ApiModelProperty(hidden = true)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy")
 	@Column(name="DATMOD", nullable=true, unique=false)
 	 private Date modifiedDate;
 	 
+	@ApiModelProperty(hidden = true)
 	@Column(name="OPEDEL", length=100, nullable=true, unique=false)
 	 private String eraser;
 	 
