@@ -72,98 +72,62 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			
-			<!-- spotify's dockerfile-maven-plugin -->
-			
-			<!-- <plugin>
-	            <groupId>com.spotify</groupId>
-	            <artifactId>dockerfile-maven-plugin</artifactId>
-	            <version>1.4.9</version>
-	            <executions>
+       		<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId> <!-- surefire plugin version managed by Spring Boot -->
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+				<executions>
 					<execution>
-						<id>default</id>
-						<phase>install</phase>
+						<id>unit-tests</id>
+						<phase>test</phase>
 						<goals>
-							<goal>build</goal>
-							<goal>push</goal>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skipTests>false</skipTests>
+							<includes>
+								<include>**/*Tests.java</include>
+							</includes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>integration-tests</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skipTests>false</skipTests>
+							<includes>
+								<include>**/*IT.*</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.3</version>
+				<executions>
+					<execution>
+						<id>coverage-initialize</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>coverage-report</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>report</goal>
 						</goals>
 					</execution>
 				</executions>
-	            <configuration>
-	                <repository>${docker.image.prefix}/${project.artifactId}</repository>
+			</plugin>
 			
-	            <serverId>index.docker.io</serverId>
-	      		<registryUrl>https://index.docker.io:443/v1/</registryUrl>
-	            </configuration>
-        	</plugin>
-        	
-        	<plugin>
-		     
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-dependency-plugin</artifactId>
-			    <executions>
-			        <execution>
-			            <id>unpack</id>
-			            <phase>package</phase>
-			            <goals>
-			                <goal>unpack</goal>
-			            </goals>
-			            <configuration>
-			                <artifactItems>
-			                    <artifactItem>
-			                        <groupId>${project.groupId}</groupId>
-			                        <artifactId>${project.artifactId}</artifactId>
-			                        <version>${project.version}</version>
-			                        <type>war</type>
-			                    </artifactItem>
-			                </artifactItems>
-			            </configuration>
-			        </execution>
-				
-	 
-			    </executions>
-		    
-       		</plugin> -->
-       		<!-- jacoco-maven-plugin useful for Codecov -->
-       		
-       		<plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-surefire-plugin</artifactId>
-			    <version>2.17</version>
-			    <configuration>
-			        <forkCount>1</forkCount>
-			        <reuseForks>true</reuseForks>
-			    </configuration>
-			    <executions>
-			        <execution>
-			            <id>default-test</id>
-			            <phase>test</phase>
-			            <goals>
-			                <goal>test</goal>
-			            </goals>
-			        </execution>
-			    </executions>
-			</plugin>
-        
-       		<plugin>
-			    <groupId>org.jacoco</groupId>
-			    <artifactId>jacoco-maven-plugin</artifactId>
-			    <version>0.7.6.201602180812</version>
-			    <executions>
-			        <execution>
-			            <id>jacoco-initialize</id>
-			            <goals>
-			                <goal>prepare-agent</goal>
-			            </goals>
-			        </execution>
-			        <execution>
-			            <id>jacoco-site</id>
-			            <phase>package</phase>
-			            <goals>
-			                <goal>report</goal>
-			            </goals>
-			        </execution>
-			    </executions>
-			</plugin>
 			<!-- Useful for Heroku Deployment -->
 			
 			<plugin>
