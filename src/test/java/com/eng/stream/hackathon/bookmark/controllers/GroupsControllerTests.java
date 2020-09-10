@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.eng.stream.hackathon.bookmark.models.Group;
 import com.eng.stream.hackathon.bookmark.models.GroupBean;
 import com.eng.stream.hackathon.bookmark.services.GroupService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.eng.stream.hackathon.bookmark.utils.CommonUtils;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -82,7 +81,7 @@ class GroupsControllerTests {
 	        // Execute the POST request
 	        mockMvc.perform(post("/api/v1/groups/createGroup")
 	                .contentType(MediaType.APPLICATION_JSON)
-	                .content(asJsonString(snoGroup)))
+	                .content(CommonUtils.asJsonString(snoGroup)))
 	                // Validate the response code and content type
 	                .andExpect(status().isCreated())
 	                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -93,11 +92,4 @@ class GroupsControllerTests {
 	                .andExpect(jsonPath("$.creator", is("pmurugesan2012@gmail.com")));
 	    }
 	 	
-	 	static String asJsonString(final Object obj) {
-	        try {
-	            return new ObjectMapper().writeValueAsString(obj);
-	        } catch (IOException e) {
-	        	return "{'Error': 'error in converting to JSON object'}";
-	        }
-	    }
 }

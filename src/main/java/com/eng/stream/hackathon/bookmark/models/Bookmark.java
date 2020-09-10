@@ -15,32 +15,30 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-/**
- * @Author Prabhu MURUGESAN
- */
-
 @Entity
-@Table(name = "TBOOKMARKGROUPSENG")
+@Table(name = "TBOOKMARKSENG")
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-@ApiModel(description = "Provides details about  a group")
-public class Group {
+@ApiModel(description = "Bookmark details bean")
+public class Bookmark {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@ApiModelProperty(notes = "Unique id of a group")
-	@Column(name="GROUPID", nullable=false, unique=true)
-	 private Long groupId;
+	@Column(name="BOOKMARKID", nullable=false, unique=true)
+	@ApiModelProperty(hidden = true)
+	private Long bookmarkId;
 	
-	@ApiModelProperty(notes = "Group type details like TRIBE, FT, APPLICATION/PLATFORM")
-	@Column(name="GROUPTYPE", length=15, nullable=false, unique=false)
-	 private String groupType;
+	@Column(name="BOOKMARKURL", length=1000, nullable=false, unique=false)
+	private String bookmarkUrl;
 	
-	@ApiModelProperty(notes = "Group value holds the type of group based on ")
-	@Column(name="GROUPVALUE", length=30, nullable=false, unique=false)
-	 private String groupValue;
+	@Column(name="SHORTURL", length=250, nullable=false, unique=true)
+	private String shortUrl;
+	
+	@Column(name="EXPIRYDATE",nullable=false, unique=false)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy")
+	private Date expiryDate;
 	
 	@ApiModelProperty(hidden = true)
-	@Column(name="GROUPCREATOR", length=100, nullable=false, unique=false)
+	@Column(name="OPECRE", length=100, nullable=false, unique=false)
 	 private String creator;
 	
 	@ApiModelProperty(hidden = true)
@@ -60,71 +58,101 @@ public class Group {
 	@ApiModelProperty(hidden = true)
 	@Column(name="OPEDEL", length=100, nullable=true, unique=false)
 	 private String eraser;
-	 
-	public Group() {
+
+	public Bookmark() {
+		super();
 	}
 	
-	public Group(String groupType, String groupValue, String creator, Date createdDate) {
+	
+	public Bookmark( String bookmarkUrl, String shortUrl, Date expiryDate, String creator, Date createdDate) {
 		super();
-		this.groupType = groupType;
-		this.groupValue = groupValue;
+		this.bookmarkUrl = bookmarkUrl;
+		this.shortUrl = shortUrl;
+		this.expiryDate = expiryDate;
 		this.creator = creator;
 		this.createdDate = createdDate;
 	}
-	public Long getGroupId() {
-		return groupId;
+
+
+	public Long getBookmarkId() {
+		return bookmarkId;
 	}
-	public void setGroupId(Long groupId) {
-		this.groupId = groupId;
+
+	public void setBookmarkId(Long bookmarkId) {
+		this.bookmarkId = bookmarkId;
 	}
-	public String getGroupType() {
-		return groupType;
+
+	public String getBookmarkUrl() {
+		return bookmarkUrl;
 	}
-	public void setGroupType(String groupType) {
-		this.groupType = groupType;
+
+	public void setBookmarkUrl(String bookmarkUrl) {
+		this.bookmarkUrl = bookmarkUrl;
 	}
-	public String getGroupValue() {
-		return groupValue;
+
+	public String getShortUrl() {
+		return shortUrl;
 	}
-	public void setGroupValue(String groupValue) {
-		this.groupValue = groupValue;
+
+	public void setShortUrl(String shortUrl) {
+		this.shortUrl = shortUrl;
 	}
+
+	public Date getExpiryDate() {
+		return expiryDate;
+	}
+
+	public void setExpiryDate(Date expiryDate) {
+		this.expiryDate = expiryDate;
+	}
+
 	public String getCreator() {
 		return creator;
 	}
+
 	public void setCreator(String creator) {
 		this.creator = creator;
 	}
-	public String getModifier() {
-		return modifier;
-	}
-	public void setModifier(String modifier) {
-		this.modifier = modifier;
-	}
+
 	public Date getCreatedDate() {
 		return createdDate;
 	}
+
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
+
+	public String getModifier() {
+		return modifier;
+	}
+
+	public void setModifier(String modifier) {
+		this.modifier = modifier;
+	}
+
 	public Date getModifiedDate() {
 		return modifiedDate;
 	}
+
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
+
 	public String getEraser() {
 		return eraser;
 	}
+
 	public void setEraser(String eraser) {
 		this.eraser = eraser;
 	}
-	
+
+
 	@Override
 	public String toString() {
-		return "Group [groupId=" + groupId + ", groupType=" + groupType + ", groupValue=" + groupValue + ", creator="
-				+ creator + ", modifier=" + modifier + ", createdDate=" + createdDate + ", modifiedDate=" + modifiedDate
-				+ ", eraser=" + eraser + "]";
+		return "Bookmark [bookmarkId=" + bookmarkId + ", bookmarkUrl=" + bookmarkUrl + ", shortUrl=" + shortUrl
+				+ ", expiryDate=" + expiryDate + ", creator=" + creator + ", createdDate=" + createdDate + ", modifier="
+				+ modifier + ", modifiedDate=" + modifiedDate + ", eraser=" + eraser + "]";
 	}
-	 
+	
+	
 }

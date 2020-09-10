@@ -33,7 +33,7 @@ class GroupServiceTests {
 	@MockBean
 	private GroupRepository  groupRepository;
 	
-	List<Group> groupList = new ArrayList<Group>();
+	private List<Group> groupList = new ArrayList<Group>();
 	@BeforeEach
 	public void setUp() {
 		Group group = new Group("FT", "SNO", "pmurugesan2012@gmail.com",new Date(System.currentTimeMillis()));
