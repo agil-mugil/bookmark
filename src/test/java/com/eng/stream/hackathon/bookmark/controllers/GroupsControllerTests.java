@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -95,8 +96,8 @@ class GroupsControllerTests {
 	 	static String asJsonString(final Object obj) {
 	        try {
 	            return new ObjectMapper().writeValueAsString(obj);
-	        } catch (Exception e) {
-	            throw new RuntimeException(e);
+	        } catch (IOException e) {
+	        	return "{'Error': 'error in converting to JSON object'}";
 	        }
 	    }
 }

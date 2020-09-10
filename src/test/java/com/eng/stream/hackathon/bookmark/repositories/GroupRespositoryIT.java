@@ -92,8 +92,6 @@ public class GroupRespositoryIT {
 			existingGroup.get().setEraser("pmurugesan@gmail.com");
 			Group deleteGroup = groupRepository.save(existingGroup.get());
 			assertEquals("pmurugesan@gmail.com", deleteGroup.getEraser());
-		}else {
-			assertTrue(true, "Group not found to update");
 		}
 	}
 
