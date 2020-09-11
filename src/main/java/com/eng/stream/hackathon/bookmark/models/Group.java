@@ -1,12 +1,17 @@
 package com.eng.stream.hackathon.bookmark.models;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -27,7 +32,7 @@ public class Group {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@ApiModelProperty(notes = "Unique id of a group")
+	@ApiModelProperty(notes = "Unique id of a group", hidden = true)
 	@Column(name="GROUPID", nullable=false, unique=true)
 	 private Long groupId;
 	
@@ -61,6 +66,11 @@ public class Group {
 	@Column(name="OPEDEL", length=100, nullable=true, unique=false)
 	 private String eraser;
 	 
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="group", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnoreProperties("group")
+	@ApiModelProperty(hidden = true)
+	private List<GroupAdmin> groupAdmins = new ArrayList<>();
+	
 	public Group() {
 	}
 	
@@ -120,11 +130,21 @@ public class Group {
 		this.eraser = eraser;
 	}
 	
+	public List<GroupAdmin> getGroupAdmins() {
+		return groupAdmins;
+	}
+
+	public void setGroupAdmins(List<GroupAdmin> groupAdmins) {
+		this.groupAdmins = groupAdmins;
+	}
+
 	@Override
 	public String toString() {
 		return "Group [groupId=" + groupId + ", groupType=" + groupType + ", groupValue=" + groupValue + ", creator="
-				+ creator + ", modifier=" + modifier + ", createdDate=" + createdDate + ", modifiedDate=" + modifiedDate
-				+ ", eraser=" + eraser + "]";
+				+ creator + ", createdDate=" + createdDate + ", modifier=" + modifier + ", modifiedDate=" + modifiedDate
+				+ ", eraser=" + eraser + ", groupAdmins=" + groupAdmins + "]";
 	}
+
+
 	 
 }

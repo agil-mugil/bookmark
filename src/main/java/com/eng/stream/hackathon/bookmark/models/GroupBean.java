@@ -41,8 +41,12 @@ public class GroupBean {
 	
 	@ApiModelProperty(hidden = true)
 	public Group getGroupEntity() {
-		return new Group(this.getGroupType(), this.getGroupValue(), 
+		Group group = new Group(this.getGroupType(), this.getGroupValue(), 
 				this.getCreator(),new Date(System.currentTimeMillis()));
+		GroupAdmin admin = new GroupAdmin(this.getCreator(),this.getCreator(),new Date(System.currentTimeMillis()));
+		admin.setGroup(group);
+		group.getGroupAdmins().add(admin);
+		return group;
 	}
 	 
 }

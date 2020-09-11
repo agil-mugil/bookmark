@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
 import com.eng.stream.hackathon.bookmark.models.Group;
+import com.eng.stream.hackathon.bookmark.models.GroupAdmin;
 
 @DataJpaTest
 @TestMethodOrder(OrderAnnotation.class)
@@ -32,9 +34,33 @@ public class GroupRespositoryIT {
 	@Rollback(false)
 	@Order(1)
 	public void testCreateGroup() {
-		Group group = new Group("FT", "SNO", "pmurugesan2012@gmail.com",new Date(System.currentTimeMillis()));
+		Group group = new Group("FT", "SNO", "pmruugesan2012@gmail.com",new Date(System.currentTimeMillis()));
+		List<GroupAdmin> groupAdmins = new ArrayList<GroupAdmin>();
+		GroupAdmin groupAdmin = new GroupAdmin();
+		groupAdmin.setUserId(group.getCreator());
+		groupAdmin.setCreator("pmruugesan2012@gmail.com");
+		groupAdmin.setCreatedDate(group.getCreatedDate());
+		groupAdmin.setGroup(group);
+		groupAdmins.add(groupAdmin);
+		group.setGroupAdmins(groupAdmins);
 		Group saved =  groupRepository.save(group);
+		
 		assertNotNull(saved);
+		System.out.println( saved.toString());
+		GroupAdmin groupAdmin2 = new GroupAdmin();
+		groupAdmin2.setUserId("prabhu.murugesan@gmail.com");
+		groupAdmin2.setCreator("pmruugesan2012@gmail.com");
+		groupAdmin2.setCreatedDate(new Date(System.currentTimeMillis()));
+		groupAdmin2.setGroup(saved);
+		saved.getGroupAdmins().add(groupAdmin2);
+		saved = groupRepository.save(saved);
+		assertEquals(2, saved.getGroupAdmins().size());
+		System.out.println(saved.toString());
+		
+		saved.getGroupAdmins().remove(0);
+		saved= groupRepository.save(saved);
+		assertEquals(1, saved.getGroupAdmins().size());
+		System.out.println(saved.toString());
 	}
 	
 	@Test
@@ -59,12 +85,15 @@ public class GroupRespositoryIT {
 	public void testListGroups() {
 		List<Group> groups = groupRepository.findAll();
 		assertThat(groups.size()).isGreaterThan(0);
+		for (Group group : groups) {
+			System.out.println(group.toString());
+		}
 	}
 	
 	@Test
 	@Rollback(false)
 	@Order(7)
-	public void testDeleteProduct() {
+	public void testDeleteGroup() {
 		String groupValue = "SNO";
 		List<Group> groupList = groupRepository.findByGroupValue(groupValue);
 		Optional<Group> existingGroup = groupList.stream()
