@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +43,8 @@ class GroupsControllerTests {
 	    @DisplayName("GET /groups success")
 	    void testGetAllGroupsSuccess() throws Exception {
 	        // Setup our mocked service
-	 		Group snoGroup = new Group("FT", "SNO", "pmurugesan2012@gmail.com",new Date(System.currentTimeMillis()));
-	 		Group enoGroup = new Group("FT", "ENO", "harish.mohan@gmail.com",new Date(System.currentTimeMillis()));
+	 		Group snoGroup = new Group("FT", "SNO");
+	 		Group enoGroup = new Group("FT", "ENO");
 	 		List<Group> allGroups = new ArrayList<Group>();
 	 		allGroups.add(snoGroup);
 	 		allGroups.add(enoGroup);
@@ -63,18 +62,16 @@ class GroupsControllerTests {
 	                .andExpect(jsonPath("$", hasSize(2)))
 	                .andExpect(jsonPath("$[0].groupType", is("FT")))
 	                .andExpect(jsonPath("$[0].groupValue", is("SNO")))
-	                .andExpect(jsonPath("$[0].creator", is("pmurugesan2012@gmail.com")))
 	                .andExpect(jsonPath("$[1].groupType", is("FT")))
-	                .andExpect(jsonPath("$[1].groupValue", is("ENO")))
-	                .andExpect(jsonPath("$[1].creator", is("harish.mohan@gmail.com")));
+	                .andExpect(jsonPath("$[1].groupValue", is("ENO")));
 	    }
 
 	 	@Test
 	    @DisplayName("POST /api/v1/groups/createGroup")
 	    void testCreateGroup() throws Exception {
 	        // Setup our mocked service
-	 		GroupBean snoGroup = new GroupBean("FT", "SNO", "pmurugesan2012@gmail.com");
-	        Group snoGroupToRetuns = new Group("FT", "SNO", "pmurugesan2012@gmail.com",new Date(System.currentTimeMillis()));
+	 		GroupBean snoGroup = new GroupBean("FT", "SNO");
+	        Group snoGroupToRetuns = new Group("FT", "SNO");
 	        snoGroupToRetuns.setGroupId(10l);
 	        doReturn(snoGroupToRetuns).when(groupService).createGroup(any());
 
@@ -88,8 +85,7 @@ class GroupsControllerTests {
 	                // Validate the returned fields
 	                .andExpect(jsonPath("$.groupId", is(10)))
 	                . andExpect(jsonPath("$.groupType", is("FT")))
-	                .andExpect(jsonPath("$.groupValue", is("SNO")))
-	                .andExpect(jsonPath("$.creator", is("pmurugesan2012@gmail.com")));
+	                .andExpect(jsonPath("$.groupValue", is("SNO")));
 	    }
 	 	
 }

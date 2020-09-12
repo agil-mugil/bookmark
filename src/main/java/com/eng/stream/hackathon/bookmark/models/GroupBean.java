@@ -2,13 +2,11 @@ package com.eng.stream.hackathon.bookmark.models;
 
 public class GroupBean {
 	private String groupType;
-	 private String groupValue;
-	 private String creator;
+	private String groupValue;
 	 
 	 public GroupBean() {
 		 super();
 	 }
-
 	public String getGroupType() {
 		return groupType;
 	}
@@ -21,18 +19,10 @@ public class GroupBean {
 	public void setGroupValue(String groupValue) {
 		this.groupValue = groupValue;
 	}
-	public String getCreator() {
-		return creator;
-	}
-	public void setCreator(String creator) {
-		this.creator = creator;
-	}
-	 
-	public GroupBean(String groupType, String groupValue, String creator) {
+	public GroupBean(String groupType, String groupValue) {
 		super();
 		this.groupType = groupType;
 		this.groupValue = groupValue;
-		this.creator = creator;
 	}
 	 
 }

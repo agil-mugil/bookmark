@@ -44,9 +44,9 @@ public class BookmarksControllerTests {
     void testGetAllBookmarkSuccess() throws Exception {
         // Setup our mocked service
 		Bookmark bookmark1 = new Bookmark("https://www.baeldung.com/database-auditing-jpa", "http://localhost:8080/bookmark/baeldung", 
-				new Date(System.currentTimeMillis()+10), "pmurugesan2012@gmail.com", new Date(System.currentTimeMillis()));
+				new Date(System.currentTimeMillis()+10));
 		Bookmark bookmark2 = new Bookmark("https://rashidi.github.io/spring-boot-data-audit/", "http://localhost:8080/bookmark/rashidi", 
-				new Date(System.currentTimeMillis()+10), "pmurugesan2012@gmail.com", new Date(System.currentTimeMillis()));
+				new Date(System.currentTimeMillis()+10));
  		List<Bookmark> allBookmarks = new ArrayList<Bookmark>();
  		allBookmarks.add(bookmark1);
  		allBookmarks.add(bookmark2);
@@ -64,10 +64,8 @@ public class BookmarksControllerTests {
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].bookmarkUrl", is("https://www.baeldung.com/database-auditing-jpa")))
                 .andExpect(jsonPath("$[0].shortUrl", is("http://localhost:8080/bookmark/baeldung")))
-                .andExpect(jsonPath("$[0].creator", is("pmurugesan2012@gmail.com")))
                 .andExpect(jsonPath("$[1].bookmarkUrl", is("https://rashidi.github.io/spring-boot-data-audit/")))
-                .andExpect(jsonPath("$[1].shortUrl", is("http://localhost:8080/bookmark/rashidi")))
-                .andExpect(jsonPath("$[1].creator", is("pmurugesan2012@gmail.com")));
+                .andExpect(jsonPath("$[1].shortUrl", is("http://localhost:8080/bookmark/rashidi")));
     }
 
  	@Test
@@ -75,9 +73,9 @@ public class BookmarksControllerTests {
     void testCreateBookmark() throws Exception {
         // Setup our mocked service
  		Bookmark bookmark1 = new Bookmark("https://www.baeldung.com/database-auditing-jpa", "http://localhost:8080/bookmark/baeldung", 
-				new Date(System.currentTimeMillis()+10), "pmurugesan2012@gmail.com", new Date(System.currentTimeMillis()));
+				new Date(System.currentTimeMillis()+10));
  		Bookmark bookmarkToReturns =  new Bookmark("https://www.baeldung.com/database-auditing-jpa", "http://localhost:8080/bookmark/baeldung", 
-				new Date(System.currentTimeMillis()+10), "pmurugesan2012@gmail.com", new Date(System.currentTimeMillis()));
+				new Date(System.currentTimeMillis()+10));
  		bookmarkToReturns.setBookmarkId(2L);
         doReturn(bookmarkToReturns).when(bookmarkService).createBookmark(any());
 
@@ -91,8 +89,7 @@ public class BookmarksControllerTests {
                 // Validate the returned fields
                 .andExpect(jsonPath("$.bookmarkId", is(2)))
                 . andExpect(jsonPath("$.bookmarkUrl", is("https://www.baeldung.com/database-auditing-jpa")))
-                .andExpect(jsonPath("$.shortUrl", is("http://localhost:8080/bookmark/baeldung")))
-                .andExpect(jsonPath("$.creator", is("pmurugesan2012@gmail.com")));
+                .andExpect(jsonPath("$.shortUrl", is("http://localhost:8080/bookmark/baeldung")));
     }
  	
 }

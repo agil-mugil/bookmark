@@ -44,10 +44,10 @@ public class CardsControllerTests {
     void testGetAllBookmarkSuccess() throws Exception {
         // Setup our mocked service
 		Card cardOne = new Card("https://www.baeldung.com/database-auditing-jpa","Spring",
-				"image/spring.img", "http://localhost:8080/bookmark/baeldung",1L, "N","pmurugesan2012@gmail.com" );
+				"image/spring.img", "http://localhost:8080/bookmark/baeldung",1L, "N" );
 		
 		Card cardTwo = new Card("https://gitter.im/engineering-stream-hackathon/community#","Hackathon",
-				"image/spring.img", "http://localhost:8080/bookmark/engineering-stream-hackathon",1L, "Y","pmurugesan2012@gmail.com" );
+				"image/spring.img", "http://localhost:8080/bookmark/engineering-stream-hackathon",1L, "Y");
 		
  		List<Card> cards = new ArrayList<Card>();
  		cards.add(cardOne);
@@ -66,12 +66,10 @@ public class CardsControllerTests {
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].bookmarkUrl", is("https://www.baeldung.com/database-auditing-jpa")))
                 .andExpect(jsonPath("$[0].shortUrl", is("http://localhost:8080/bookmark/baeldung")))
-                .andExpect(jsonPath("$[0].creator", is("pmurugesan2012@gmail.com")))
                 .andExpect(jsonPath("$[0].cardTitle", is("Spring")))
                 .andExpect(jsonPath("$[0].publish", is("N")))
                 .andExpect(jsonPath("$[1].bookmarkUrl", is("https://gitter.im/engineering-stream-hackathon/community#")))
                 .andExpect(jsonPath("$[1].shortUrl", is("http://localhost:8080/bookmark/engineering-stream-hackathon")))
-                .andExpect(jsonPath("$[1].creator", is("pmurugesan2012@gmail.com")))
                 .andExpect(jsonPath("$[1].cardTitle", is("Hackathon")))
                 .andExpect(jsonPath("$[1].publish", is("Y")));
     }
@@ -81,10 +79,10 @@ public class CardsControllerTests {
     void testCreateBookmark() throws Exception {
         // Setup our mocked service
  		CardBean cardBean = new CardBean("https://www.baeldung.com/database-auditing-jpa","Spring",
-				"image/spring.img", "http://localhost:8080/bookmark/baeldung",1L, "Y","pmurugesan2012@gmail.com" );
+				"image/spring.img", "http://localhost:8080/bookmark/baeldung",1L, "Y" );
 		
 		Card returnedCard = new Card("https://www.baeldung.com/database-auditing-jpa","Spring",
-				"image/spring.img", "http://localhost:8080/bookmark/baeldung",1L, "Y","pmurugesan2012@gmail.com" );
+				"image/spring.img", "http://localhost:8080/bookmark/baeldung",1L, "Y");
 		returnedCard.setCardId(1L);
         doReturn(returnedCard).when(cardService).createCard(any());
 
@@ -99,7 +97,6 @@ public class CardsControllerTests {
                 .andExpect(jsonPath("$.cardId", is(1)))
                 .andExpect(jsonPath("$.bookmarkUrl", is("https://www.baeldung.com/database-auditing-jpa")))
                 .andExpect(jsonPath("$.shortUrl", is("http://localhost:8080/bookmark/baeldung")))
-                .andExpect(jsonPath("$.creator", is("pmurugesan2012@gmail.com")))
                 .andExpect(jsonPath("$.cardTitle", is("Spring")))
                 .andExpect(jsonPath("$.publish", is("Y")));
  	}

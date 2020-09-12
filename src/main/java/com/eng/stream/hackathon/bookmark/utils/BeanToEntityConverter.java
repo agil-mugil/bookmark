@@ -1,6 +1,7 @@
 package com.eng.stream.hackathon.bookmark.utils;
 
-import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.eng.stream.hackathon.bookmark.models.Card;
 import com.eng.stream.hackathon.bookmark.models.CardBean;
@@ -15,26 +16,22 @@ public class BeanToEntityConverter {
 		
 	}
 	public static Group convertToEntity(GroupBean groupBean) {
-			Group group = new Group(groupBean.getGroupType(), groupBean.getGroupValue(), 
-					groupBean.getCreator(),new Date(System.currentTimeMillis()));
-			
-			GroupAdmin admin = new GroupAdmin(group.getCreator(),group.getCreator()
-					,group.getCreatedDate());
-			
+			Group group = new Group(groupBean.getGroupType(), groupBean.getGroupValue());
+			GroupAdmin admin = new GroupAdmin();
+			admin.setUserId(group.getCreatedBy());
 			admin.setGroup(group);
-			
-			group.getGroupAdmins().add(admin);
+			List<GroupAdmin> adminGroups = new ArrayList<>();
+			adminGroups.add(admin);
+			group.setGroupAdmins(adminGroups);
 			return group;
 	}
 	
 	public static GroupAdmin convertToEntity(GroupAdminBean groupAdminBean) {
-		GroupAdmin admin = new GroupAdmin(groupAdminBean.getUserId(), groupAdminBean.getCreator()
-				,new Date(System.currentTimeMillis()));
-		
+		GroupAdmin admin = new GroupAdmin();
+		admin.setUserId(groupAdminBean.getUserId());
 		Group group = new Group();
 		group.setGroupId(groupAdminBean.getGroupId());
 		admin.setGroup(group);
-		
 		return admin;
 }
 	public static Card convertToEntity(CardBean cardBean) {
@@ -46,8 +43,6 @@ public class BeanToEntityConverter {
 		card.setShortUrl(cardBean.getShortUrl());
 		card.setGroupId(cardBean.getGroupId());
 		card.setPublish(cardBean.getPublish());
-		card.setCreator(cardBean.getCreator());
-		card.setCreatedDate(new Date(System.currentTimeMillis()));
 		return card;
 	}
 }

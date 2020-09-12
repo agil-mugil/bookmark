@@ -4,7 +4,6 @@ public class GroupAdminBean {
 
 	private Long groupId;
 	private String userId;
-	private String creator;
 	public GroupAdminBean() {
 		super();
 	}
@@ -20,17 +19,10 @@ public class GroupAdminBean {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getCreator() {
-		return creator;
-	}
-	public void setCreator(String creator) {
-		this.creator = creator;
-	}
-	public GroupAdminBean(Long groupId, String userId, String creator) {
+	public GroupAdminBean(Long groupId, String userId) {
 		super();
 		this.groupId = groupId;
 		this.userId = userId;
-		this.creator = creator;
 	}
 	
 }

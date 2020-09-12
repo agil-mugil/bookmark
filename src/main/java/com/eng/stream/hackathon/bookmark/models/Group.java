@@ -1,12 +1,13 @@
 package com.eng.stream.hackathon.bookmark.models;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +16,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.eng.stream.hackathon.bookmark.audit.AuditorAwareImpl;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.swagger.annotations.ApiModel;
@@ -29,7 +32,8 @@ import io.swagger.annotations.ApiModelProperty;
 @Table(name = "TBOOKMARKGROUPSENG")
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 @ApiModel(description = "Provides details about  a group")
-public class Group {
+@EntityListeners(AuditingEntityListener.class)
+public class Group extends Auditable<String>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,28 +49,6 @@ public class Group {
 	@Column(name="GROUPVALUE", length=30, nullable=false, unique=false)
 	 private String groupValue;
 	
-	@ApiModelProperty(hidden = true)
-	@Column(name="GROUPCREATOR", length=100, nullable=false, unique=false)
-	 private String creator;
-	
-	@ApiModelProperty(hidden = true)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy")
-	@Column(name="DATCRE", nullable=false, unique=false)
-	 private Date createdDate;
-	
-	@ApiModelProperty(hidden = true)
-	@Column(name="OPEMOD", length=100, nullable=true, unique=false)
-	 private String modifier;
-	
-	@ApiModelProperty(hidden = true)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy")
-	@Column(name="DATMOD", nullable=true, unique=false)
-	 private Date modifiedDate;
-	 
-	@ApiModelProperty(hidden = true)
-	@Column(name="OPEDEL", length=100, nullable=true, unique=false)
-	 private String eraser;
-	 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy="group", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties("group")
 	@ApiModelProperty(hidden = true)
@@ -79,12 +61,10 @@ public class Group {
 	public Group() {
 	}
 	
-	public Group(String groupType, String groupValue, String creator, Date createdDate) {
+	public Group(String groupType, String groupValue) {
 		super();
 		this.setGroupType(groupType);
 		this.setGroupValue(groupValue);
-		this.setCreator(creator);
-		this.setCreatedDate(createdDate);
 	}
 	public Long getGroupId() {
 		return groupId;
@@ -104,36 +84,6 @@ public class Group {
 	public void setGroupValue(String groupValue) {
 		this.groupValue = groupValue;
 	}
-	public String getCreator() {
-		return creator;
-	}
-	public void setCreator(String creator) {
-		this.creator = creator;
-	}
-	public String getModifier() {
-		return modifier;
-	}
-	public void setModifier(String modifier) {
-		this.modifier = modifier;
-	}
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-	public Date getModifiedDate() {
-		return modifiedDate;
-	}
-	public void setModifiedDate(Date modifiedDate) {
-		this.modifiedDate = modifiedDate;
-	}
-	public String getEraser() {
-		return eraser;
-	}
-	public void setEraser(String eraser) {
-		this.eraser = eraser;
-	}
 	
 	public List<GroupAdmin> getGroupAdmins() {
 		return groupAdmins;
@@ -141,24 +91,31 @@ public class Group {
 
 	public void setGroupAdmins(List<GroupAdmin> groupAdmins) {
 		this.groupAdmins = groupAdmins;
+		setGroupAdminUserId();
 	}
 
+	private void setGroupAdminUserId() {
+		AuditorAwareImpl auditor = new AuditorAwareImpl();
+		Optional<String> currentUser = auditor.getCurrentAuditor();
+		if(currentUser.isPresent()) {
+			String userId = currentUser.get();
+			this.groupAdmins.get(0).setUserId(userId);
+		}
+	}
 	
 	public List<Card> getGroupCards() {
 		return groupCards;
 	}
-
+	
 	public void setGroupCards(List<Card> groupCards) {
 		this.groupCards = groupCards;
 	}
 
 	@Override
 	public String toString() {
-		return "Group [groupId=" + groupId + ", groupType=" + groupType + ", groupValue=" + groupValue + ", creator="
-				+ creator + ", createdDate=" + createdDate + ", modifier=" + modifier + ", modifiedDate=" + modifiedDate
-				+ ", eraser=" + eraser + ", groupAdmins=" + groupAdmins + "]";
+		return "Group [groupId=" + groupId + ", groupType=" + groupType + ", groupValue=" + groupValue
+				+ ", groupAdmins=" + groupAdmins + ", groupCards=" + groupCards + "]";
 	}
-
 
 	 
 }

@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +35,8 @@ class GroupAdminServiceTests {
 	private List<GroupAdmin> groupAdminList = new ArrayList<GroupAdmin>();
 	@BeforeEach
 	public void setUp() {
-		GroupAdmin groupAdmin = new GroupAdmin("pmurugesan2012@gmail.com", "prabhu.murugesan", new Date(System.currentTimeMillis()));
+		GroupAdmin groupAdmin = new GroupAdmin();
+		groupAdmin.setUserId("pmurugesan2012@gmail.com");
 		groupAdminList.add(groupAdmin);
 	    Mockito.when(adminRepository.findAllByGroupId(any())).thenReturn(groupAdminList);
 	    Mockito.when(adminRepository.countyByGroupId(any())).thenReturn(2);
@@ -46,7 +46,8 @@ class GroupAdminServiceTests {
 	@Test
 	@Order(1)
 	void testCreateGroup() {
-		GroupAdmin groupAdmin = new GroupAdmin("pmurugesan2012@gmail.com", "prabhu.murugesan", new Date(System.currentTimeMillis()));
+		GroupAdmin groupAdmin = new GroupAdmin();
+		groupAdmin.setUserId("pmurugesan2012@gmail.com");
 	    doReturn(groupAdmin).when(adminRepository).save(any());
 	    GroupAdmin created = adminService.addGroupAdmin(groupAdmin);
 		assertNotNull(created);

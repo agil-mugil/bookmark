@@ -34,7 +34,7 @@ public class BookmarkServiceTests {
 	public void setUp() {
 		List<Bookmark> bookmarkList = new ArrayList<Bookmark>();
 		Bookmark bookmark = new Bookmark("https://www.baeldung.com/database-auditing-jpa", "http://localhost:8080/bookmark/baeldung", 
-				new Date(System.currentTimeMillis()+10), "pmurugesan2012@gmail.com", new Date(System.currentTimeMillis()));
+				new Date(System.currentTimeMillis()+10));
 		bookmarkList.add(bookmark);
 	    Mockito.when(bookmarkRepository.findAll()).thenReturn(bookmarkList);
 	}
@@ -42,7 +42,7 @@ public class BookmarkServiceTests {
 	@Test
 	void testCreateGroup() {
 		Bookmark bookmark = new Bookmark("https://www.baeldung.com/database-auditing-jpa", "http://localhost:8080/bookmark/baeldung", 
-				new Date(System.currentTimeMillis()+10), "pmurugesan2012@gmail.com", new Date(System.currentTimeMillis()));
+				new Date(System.currentTimeMillis()+10));
 	    doReturn(bookmark).when(bookmarkRepository).save(any());
 	    Bookmark created = bookmarkService.createBookmark(bookmark);
 		assertNotNull(created);

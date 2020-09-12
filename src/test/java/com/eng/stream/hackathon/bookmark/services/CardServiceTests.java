@@ -35,7 +35,7 @@ public class CardServiceTests {
 	@BeforeEach
 	public void setUp() {
 		Card card = new Card("https://www.baeldung.com/database-auditing-jpa","Spring",
-				"image/spring.img", "http://localhost:8080/bookmark/baeldung",1L, "Y","pmurugesan2012@gmail.com" );
+				"image/spring.img", "http://localhost:8080/bookmark/baeldung",1L, "Y");
 		cardList.add(card);
 	    Mockito.when(cardRepository.findByPublish(any())).thenReturn(cardList);
 	    Mockito.when(cardRepository.findByPublishAndGroupId(any(),any())).thenReturn(cardList);
@@ -47,7 +47,7 @@ public class CardServiceTests {
 	@Order(1)
 	void testCreateCard() {
 		Card card = new Card("https://www.baeldung.com/database-auditing-jpa","Spring",
-				"image/spring.img", "http://localhost:8080/bookmark/baeldung",1L, "Y","pmurugesan2012@gmail.com" );
+				"image/spring.img", "http://localhost:8080/bookmark/baeldung",1L, "Y");
 	    doReturn(card).when(cardRepository).saveAndFlush(any());
 		Card created = cardService.createCard(card);
 		assertNotNull(created);

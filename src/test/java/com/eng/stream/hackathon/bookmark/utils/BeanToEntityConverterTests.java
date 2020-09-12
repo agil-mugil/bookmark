@@ -17,12 +17,10 @@ public class BeanToEntityConverterTests {
 	@Test
 	public void testconvertToGroupEntity() {
 		GroupBean groupBean = new GroupBean();
-		groupBean.setCreator("prabhu");
 		groupBean.setGroupType("TRIBE");
 		groupBean.setGroupValue("RCM");
 		Group group =BeanToEntityConverter.convertToEntity(groupBean);
 		assertNotNull(group);
-		assertEquals(group.getCreator(), groupBean.getCreator());
 		assertEquals(group.getGroupType(), groupBean.getGroupType());
 		assertEquals(group.getGroupValue(), groupBean.getGroupValue());
 		assertEquals(1,group.getGroupAdmins().size());
@@ -31,12 +29,10 @@ public class BeanToEntityConverterTests {
 	@Test
 	public void testconvertToGroupAdminEntity() {
 		GroupAdminBean groupAdminBean = new GroupAdminBean();
-		groupAdminBean.setCreator("prabhu");
 		groupAdminBean.setGroupId(10L);
 		groupAdminBean.setUserId("pmurugesan2012@gmail.com");
 		GroupAdmin groupAdmin =BeanToEntityConverter.convertToEntity(groupAdminBean);
 		assertNotNull(groupAdmin);
-		assertEquals(groupAdmin.getCreator(), groupAdminBean.getCreator());
 		assertEquals(groupAdmin.getUserId(), groupAdminBean.getUserId());
 		assertEquals(groupAdmin.getGroup().getGroupId(), groupAdminBean.getGroupId());
 	}
@@ -51,7 +47,6 @@ public class BeanToEntityConverterTests {
 		cardBean.setShortUrl("http://localhost:8080/bookmark/engineering-stream-hackathon");
 		cardBean.setGroupId(10L);
 		cardBean.setPublish("Y");
-		cardBean.setCreator(cardBean.getCreator());
 		
 		Card card =BeanToEntityConverter.convertToEntity(cardBean);
 		
@@ -62,7 +57,6 @@ public class BeanToEntityConverterTests {
 		assertEquals(cardBean.getShortUrl(),card.getShortUrl());
 		assertEquals(cardBean.getGroupId(),card.getGroupId());
 		assertEquals(cardBean.getPublish(), card.getPublish());
-		assertEquals(cardBean.getCreator(),card.getCreator());
 	}
 	
 }

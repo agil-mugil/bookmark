@@ -25,11 +25,6 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public List<Group> finaAllActiveGroups() {
-		return groupRepository.findByEraserIsNull();
-	}
-
-	@Override
 	public void deleteGroup(Long groupId) {
 		groupRepository.deleteById(groupId);
 	}

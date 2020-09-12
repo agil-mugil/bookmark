@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +43,10 @@ public class GroupAdminsControllerTests {
     @DisplayName("GET /Get Group Admins")
     void testGetAllGroupAdminsSuccess() throws Exception {
         // Setup our mocked service
- 		GroupAdmin adminOne = new GroupAdmin( "pmurugesan2012@gmail.com","pmurugesan2012@gmail.com",new Date(System.currentTimeMillis()));
- 		GroupAdmin adminTwo =  new GroupAdmin( "pmurugesan@gmail.com","pmurugesan2012@gmail.com",new Date(System.currentTimeMillis()));
+ 		GroupAdmin adminOne = new GroupAdmin();
+ 		adminOne.setUserId("pmurugesan@gmail.com");
+ 		GroupAdmin adminTwo =  new GroupAdmin();
+ 		adminTwo.setUserId("pmurugesan2012@gmail.com");
  		List<GroupAdmin> groupAdmis = new ArrayList<GroupAdmin>();
  		groupAdmis.add(adminOne);
  		groupAdmis.add(adminTwo);
@@ -62,19 +63,20 @@ public class GroupAdminsControllerTests {
 
                 // Validate the returned fields
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].userId", is("pmurugesan2012@gmail.com")))
-                .andExpect(jsonPath("$[0].creator", is("pmurugesan2012@gmail.com")))
-                .andExpect(jsonPath("$[1].userId", is("pmurugesan@gmail.com")))
-                .andExpect(jsonPath("$[1].creator", is("pmurugesan2012@gmail.com")));
+                .andExpect(jsonPath("$[0].userId", is("pmurugesan@gmail.com")))
+                .andExpect(jsonPath("$[1].userId", is("pmurugesan2012@gmail.com")));
     }
 
  	@Test
     @DisplayName("POST /api/v1/groupAdmins/createGroupAdmin")
     void testCreateGroup() throws Exception {
         // Setup our mocked service
- 		GroupAdminBean groupAdminBean= new GroupAdminBean(1L, "pmurugesan2012@gmail.com","pmurugesan2012@gmail.com");
- 		GroupAdmin returnedGroupAdmin =  new GroupAdmin( "pmurugesan2012@gmail.com","pmurugesan2012@gmail.com",new Date(System.currentTimeMillis()));
+ 		GroupAdminBean groupAdminBean= new GroupAdminBean();
+ 		groupAdminBean.setUserId("pmurugesan2012@gmail.com");
+ 		GroupAdmin returnedGroupAdmin =  new GroupAdmin( );
+ 		returnedGroupAdmin.setUserId("pmurugesan2012@gmail.com");
  		returnedGroupAdmin.setGroupUserId(1L);
+ 		
         doReturn(returnedGroupAdmin).when(groupAdminService).addGroupAdmin(any());
 
         // Execute the POST request
@@ -86,7 +88,6 @@ public class GroupAdminsControllerTests {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 // Validate the returned fields
                 .andExpect(jsonPath("$.groupUserId", is(1)))
-                .andExpect(jsonPath("$.userId", is("pmurugesan2012@gmail.com")))
-                .andExpect(jsonPath("$.creator", is("pmurugesan2012@gmail.com")));
+                .andExpect(jsonPath("$.userId", is("pmurugesan2012@gmail.com")));
     }
 }

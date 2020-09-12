@@ -14,8 +14,6 @@ import javax.persistence.Table;
 
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class GroupAdminTests {
 
 public Class<GroupAdmin> groupAdminClass = GroupAdmin.class; 
@@ -67,56 +65,4 @@ public Class<GroupAdmin> groupAdminClass = GroupAdmin.class;
 		assertEquals(100, columnAnnotation.length());
 	}
 	
-	
-	@Test
-	void validateCreator() throws NoSuchFieldException, SecurityException {
-		Field groupAdminField = groupAdminClass.getDeclaredField("creator");
-		Column columnAnnotation = groupAdminField.getAnnotation(Column.class);
-		assertNotNull(columnAnnotation);
-		assertEquals("OPECRE", columnAnnotation.name());
-		assertEquals(100, columnAnnotation.length());
-	}
-	@Test
-	void validateCreatedDate() throws NoSuchFieldException, SecurityException {
-		Field groupAdminField = groupAdminClass.getDeclaredField("createdDate");
-		Column columnAnnotation = groupAdminField.getAnnotation(Column.class);
-		assertNotNull(columnAnnotation);
-		assertEquals("DATCRE", columnAnnotation.name());
-		
-		//check for date format 
-		JsonFormat dateFomat=groupAdminField.getAnnotation(JsonFormat.class);
-		assertNotNull(dateFomat);
-		assertEquals("MM-dd-yyyy", dateFomat.pattern());
-	}
-	
-	@Test
-	void validateModifier() throws NoSuchFieldException, SecurityException {
-		Field groupAdminField = groupAdminClass.getDeclaredField("modifier");
-		Column columnAnnotation = groupAdminField.getAnnotation(Column.class);
-		assertNotNull(columnAnnotation);
-		assertEquals("OPEMOD", columnAnnotation.name());
-		assertEquals(100, columnAnnotation.length());
-	}
-	
-	@Test
-	void validateModifierDate() throws NoSuchFieldException, SecurityException {
-		Field groupAdminField = groupAdminClass.getDeclaredField("modifiedDate");
-		Column columnAnnotation = groupAdminField.getAnnotation(Column.class);
-		assertNotNull(columnAnnotation);
-		assertEquals("DATMOD", columnAnnotation.name());
-		
-		//check for date format 
-		JsonFormat dateFomat=groupAdminField.getAnnotation(JsonFormat.class);
-		assertNotNull(dateFomat);
-		assertEquals("MM-dd-yyyy", dateFomat.pattern());
-	}
-	
-	@Test
-	void validateEraser() throws NoSuchFieldException, SecurityException {
-		Field groupAdminField = groupAdminClass.getDeclaredField("eraser");
-		Column columnAnnotation = groupAdminField.getAnnotation(Column.class);
-		assertNotNull(columnAnnotation);
-		assertEquals("OPEDEL", columnAnnotation.name());
-		assertEquals(100, columnAnnotation.length());
-	}
 }

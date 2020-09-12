@@ -45,7 +45,6 @@ public class BookmarksController {
 	@ApiOperation(value = "Create the bookmark", notes = "Service to create a bookmark", response =ResponseEntity.class )
 	public ResponseEntity<Bookmark> createBookmark(@RequestBody Bookmark bookmark) {
 		try {
-			bookmark.setCreator("pmurugesan2012@gmail.com");
 			bookmark.setCreatedDate(new Date(System.currentTimeMillis()));
             return ResponseEntity.created(new URI(CREATE_BOOKMARK))
                     .body(bookmarkService.createBookmark(bookmark));

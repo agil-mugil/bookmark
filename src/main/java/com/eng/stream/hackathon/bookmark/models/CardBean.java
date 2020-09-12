@@ -1,9 +1,5 @@
 package com.eng.stream.hackathon.bookmark.models;
 
-import java.sql.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class CardBean {
 
 	private String bookmarkUrl;
@@ -13,15 +9,12 @@ public class CardBean {
 	private String shortUrl;
 	private Long groupId;
 	private String publish;
-	private String creator;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyyy")
-	private Date createdDate;
 	
 	public CardBean() {
 		super();
 	}
 	public CardBean(String bookmarkUrl, String cardTitle,  String imageUrl, String shortUrl, Long groupId,
-			String publish, String creator) {
+			String publish) {
 		super();
 		this.bookmarkUrl = bookmarkUrl;
 		this.cardTitle = cardTitle;
@@ -30,7 +23,6 @@ public class CardBean {
 		this.shortUrl = shortUrl;
 		this.groupId = groupId;
 		this.publish = publish;
-		this.creator = creator;
 	}
 	public String getBookmarkUrl() {
 		return bookmarkUrl;
@@ -74,24 +66,5 @@ public class CardBean {
 	public void setPublish(String publish) {
 		this.publish = publish;
 	}
-	public String getCreator() {
-		return creator;
-	}
-	public void setCreator(String creator) {
-		this.creator = creator;
-	}
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-	@Override
-	public String toString() {
-		return "CardBean [bookmarkUrl=" + bookmarkUrl + ", cardTitle=" + cardTitle + ", cardDesc=" + cardDesc
-				+ ", imageUrl=" + imageUrl + ", shortUrl=" + shortUrl + ", groupId=" + groupId + ", publish=" + publish
-				+ ", creator=" + creator + ", createdDate=" + createdDate + "]";
-	}
-	
 	
 }

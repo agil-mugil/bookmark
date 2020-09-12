@@ -35,12 +35,10 @@ public class CardRepositoryIT {
 	private CardRepository cardRepository;
 	
 	public Group createGroup() {
-		Group group = new Group("FT", "SNO", "pmruugesan2012@gmail.com",new Date(System.currentTimeMillis()));
+		Group group = new Group("FT", "SNO");
 		List<GroupAdmin> groupAdmins = new ArrayList<GroupAdmin>();
 		GroupAdmin groupAdmin = new GroupAdmin();
-		groupAdmin.setUserId(group.getCreator());
-		groupAdmin.setCreator("pmruugesan2012@gmail.com");
-		groupAdmin.setCreatedDate(group.getCreatedDate());
+		groupAdmin.setUserId("prabhu.murugesan");
 		groupAdmin.setGroup(group);
 		groupAdmins.add(groupAdmin);
 		group.setGroupAdmins(groupAdmins);
@@ -54,16 +52,13 @@ public class CardRepositoryIT {
 	public void testCreateCard() {
 		Group group = createGroup();
 		Card card = new Card("https://www.baeldung.com/database-auditing-jpa","Spring",
-				"image/spring.img", "http://localhost:8080/bookmark/baeldung",group.getGroupId(), "N","pmurugesan2012@gmail.com" );
-		card.setCreatedDate( new Date(System.currentTimeMillis()));
+				"image/spring.img", "http://localhost:8080/bookmark/baeldung",group.getGroupId(), "N");
 		Card saved =cardRepository.saveAndFlush(card);
 		assertNotNull(saved);
 		
 		Card cardTwo = new Card("https://gitter.im/engineering-stream-hackathon/community#","Spring",
-				"image/spring.img", "http://localhost:8080/bookmark/engineering-stream-hackathon",group.getGroupId(), "N","pmurugesan2012@gmail.com" );
-		cardTwo.setCreatedDate( new Date(System.currentTimeMillis()));
+				"image/spring.img", "http://localhost:8080/bookmark/engineering-stream-hackathon",group.getGroupId(), "N");
 		saved =cardRepository.saveAndFlush(cardTwo);
-		cardTwo.setCreatedDate( new Date(System.currentTimeMillis()));
 		assertNotNull(saved);
 	}
 	

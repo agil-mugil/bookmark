@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,12 +36,10 @@ public class GroupRespositoryIT {
 	@Rollback(false)
 	@Order(1)
 	public void testCreateGroup() {
-		Group group = new Group("FT", "SNO", "alex2012@gmail.com",new Date(System.currentTimeMillis()));
+		Group group = new Group("FT", "ENO");
 		List<GroupAdmin> groupAdmins = new ArrayList<GroupAdmin>();
 		GroupAdmin groupAdmin = new GroupAdmin();
-		groupAdmin.setUserId(group.getCreator());
-		groupAdmin.setCreator("pmruugesan2012@gmail.com");
-		groupAdmin.setCreatedDate(group.getCreatedDate());
+		groupAdmin.setUserId("suresh.k@gmail.com");
 		groupAdmin.setGroup(group);
 		groupAdmins.add(groupAdmin);
 		group.setGroupAdmins(groupAdmins);
@@ -52,8 +49,6 @@ public class GroupRespositoryIT {
 		System.out.println( saved.toString());
 		GroupAdmin groupAdmin2 = new GroupAdmin();
 		groupAdmin2.setUserId("james@gmail.com");
-		groupAdmin2.setCreator("pmruugesan2012@gmail.com");
-		groupAdmin2.setCreatedDate(new Date(System.currentTimeMillis()));
 		groupAdmin2.setGroup(saved);
 		saved.getGroupAdmins().add(groupAdmin2);
 		saved = groupRepository.save(saved);
@@ -69,7 +64,7 @@ public class GroupRespositoryIT {
 	@Test
 	@Order(2)
 	public void testFindGroupByValueExists() {
-		String groupValue = "SNO";
+		String groupValue = "ENO";
 		List<Group> groups = groupRepository.findByGroupValue(groupValue);
 		assertThat(groups.size()).isGreaterThan(0);
 		 assertThat(groups).extracting(Group::getGroupValue).contains(groupValue);
@@ -78,7 +73,7 @@ public class GroupRespositoryIT {
 	@Test
 	@Order(3)
 	public void testFindGroupByValueNotExists() {
-		String groupValue = "ENO";
+		String groupValue = "PNA";
 		List<Group> groups = groupRepository.findByGroupValue(groupValue);
 		assertEquals(0,groups.size());
 	}
@@ -95,9 +90,9 @@ public class GroupRespositoryIT {
 	
 	@Test
 	@Rollback(false)
-	@Order(7)
+	@Order(5)
 	public void testDeleteGroup() {
-		String groupValue = "SNO";
+		String groupValue = "ENO";
 		List<Group> groupList = groupRepository.findByGroupValue(groupValue);
 		Optional<Group> existingGroup = groupList.stream()
 	      .filter(group -> groupValue.equalsIgnoreCase(group.getGroupValue())).findFirst();
@@ -112,26 +107,4 @@ public class GroupRespositoryIT {
 		assertFalse(dataNotPresentAfterDelete);
 	}
 	
-	@Test
-	@Rollback(false)
-	@Order(5)
-	public void testSoftDelete() {
-		String groupValue = "SNO";
-		List<Group> groupList = groupRepository.findByGroupValue(groupValue);
-		Optional<Group> existingGroup = groupList.stream()
-			      .filter(group -> groupValue.equalsIgnoreCase(group.getGroupValue())).findFirst();
-		
-		if(existingGroup.isPresent()) {
-			existingGroup.get().setEraser("pmurugesan@gmail.com");
-			Group deleteGroup = groupRepository.save(existingGroup.get());
-			assertEquals("pmurugesan@gmail.com", deleteGroup.getEraser());
-		}
-	}
-
-	@Test
-	@Order(6)
-	public void testListActiveGroups() {
-		List<Group> groups = groupRepository.findByEraserIsNull();
-		assertThat(groups.size()).isGreaterThan(0);
-	}
 }

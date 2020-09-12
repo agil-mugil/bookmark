@@ -14,8 +14,6 @@ import javax.persistence.Table;
 
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class CardTests {
 
 	public Class<Card> cardClass = Card.class; 
@@ -118,56 +116,4 @@ public class CardTests {
 		assertEquals(1, columnAnnotation.length());
 	}
 	
-	@Test
-	void validateCreator() throws NoSuchFieldException, SecurityException {
-		Field cardField = cardClass.getDeclaredField("creator");
-		Column columnAnnotation = cardField.getAnnotation(Column.class);
-		assertNotNull(columnAnnotation);
-		assertEquals("OPECRE", columnAnnotation.name());
-		assertEquals(100, columnAnnotation.length());
-	}
-	
-	@Test
-	void validateCreatedDate() throws NoSuchFieldException, SecurityException {
-		Field cardField = cardClass.getDeclaredField("createdDate");
-		Column columnAnnotation = cardField.getAnnotation(Column.class);
-		assertNotNull(columnAnnotation);
-		assertEquals("DATCRE", columnAnnotation.name());
-		
-		//check for date format 
-		JsonFormat dateFomat=cardField.getAnnotation(JsonFormat.class);
-		assertNotNull(dateFomat);
-		assertEquals("MM-dd-yyyy", dateFomat.pattern());
-	}
-	
-	@Test
-	void validateModifier() throws NoSuchFieldException, SecurityException {
-		Field cardField = cardClass.getDeclaredField("modifier");
-		Column columnAnnotation = cardField.getAnnotation(Column.class);
-		assertNotNull(columnAnnotation);
-		assertEquals("OPEMOD", columnAnnotation.name());
-		assertEquals(100, columnAnnotation.length());
-	}
-	
-	@Test
-	void validateModifierDate() throws NoSuchFieldException, SecurityException {
-		Field cardField = cardClass.getDeclaredField("modifiedDate");
-		Column columnAnnotation = cardField.getAnnotation(Column.class);
-		assertNotNull(columnAnnotation);
-		assertEquals("DATMOD", columnAnnotation.name());
-		
-		//check for date format 
-		JsonFormat dateFomat=cardField.getAnnotation(JsonFormat.class);
-		assertNotNull(dateFomat);
-		assertEquals("MM-dd-yyyy", dateFomat.pattern());
-	}
-	
-	@Test
-	void validateEraser() throws NoSuchFieldException, SecurityException {
-		Field cardField = cardClass.getDeclaredField("eraser");
-		Column columnAnnotation = cardField.getAnnotation(Column.class);
-		assertNotNull(columnAnnotation);
-		assertEquals("OPEDEL", columnAnnotation.name());
-		assertEquals(100, columnAnnotation.length());
-	}
 }

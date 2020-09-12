@@ -29,7 +29,7 @@ public class BookmarkRepositoryIT {
 	@Order(1)
 	public void testCreateBookmark() {
 		Bookmark bookmark = new Bookmark("https://www.baeldung.com/database-auditing-jpa", "http://localhost:8080/bookmark/baeldung", 
-				new Date(System.currentTimeMillis()+10), "pmurugesan2012@gmail.com", new Date(System.currentTimeMillis()));
+				new Date(System.currentTimeMillis()+10));
 		Bookmark saved =  bookmarkRepository.save(bookmark);
 		assertNotNull(saved);
 	}

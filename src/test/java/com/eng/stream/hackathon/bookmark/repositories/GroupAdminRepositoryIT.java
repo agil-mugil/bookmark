@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.sql.Date;
-
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -33,9 +31,10 @@ class GroupAdminRepositoryIT {
 	@Rollback(false)
 	@Order(1)
 	public void testCreateGroup() {
-		Group group = new Group("FT", "SKT", "john@gmail.com", new Date(System.currentTimeMillis()));
+		Group group = new Group("FT", "SKT");
 		Group result = groupRepo.save(group);
-		GroupAdmin groupAdmin = new GroupAdmin("anderson@gmail.com", "pmurug", new Date(System.currentTimeMillis()));
+		GroupAdmin groupAdmin = new GroupAdmin();
+		groupAdmin.setUserId("anderson@gmail.com");
 		groupAdmin.setGroup(result);
 		GroupAdmin resultedAdmin = groupAdminRepository.save(groupAdmin);
 		assertNotNull(resultedAdmin);
@@ -55,7 +54,7 @@ class GroupAdminRepositoryIT {
 	@Test
 	@Order(2)
 	public void testCountByGroupId() {
-		Long groupId = 2L;
+		Long groupId = 1L;
 		int groupAdminCounts = groupAdminRepository.countyByGroupId(groupId);
 		assertThat(groupAdminCounts).isGreaterThan(0);
 	}
