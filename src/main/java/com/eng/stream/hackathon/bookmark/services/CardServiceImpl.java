@@ -42,7 +42,7 @@ public class CardServiceImpl implements CardService {
 	public List<Card> findByPublishAndGroupId(Long groupId) {
 		List<Card> cards =  cardRepository.findByPublishAndGroupId("Y", groupId);
 		if(cards.isEmpty()) {
-			throw new EntityNotFoundException(Card.class,"Publish", "Y");
+			throw new EntityNotFoundException(Card.class,"Publish & Group ID", "Y & "+groupId);
 		}
 		return cards;
 	}

@@ -3,6 +3,7 @@ package com.eng.stream.hackathon.bookmark.services;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.eng.stream.hackathon.bookmark.EntityNotFoundException;
 import com.eng.stream.hackathon.bookmark.models.Group;
 import com.eng.stream.hackathon.bookmark.repositories.GroupRepository;
 
@@ -73,5 +75,30 @@ class GroupServiceTests {
 		List<Group> groupList = groupService.findByGroupValue(groupValue);
 		assertThat(groupList.size()).isGreaterThan(0);
 	}
+	
+	@Test
+	void testFindGroupAdminsWithNoEntityFound() {
+		try {
+			List<Group> groupList = new ArrayList<Group>();
+			doReturn(groupList).when(groupRepository).findAll();
+			groupService.findAllGroups();
+			fail(" EntityNotFoundException exception not thrown");
+		} catch (EntityNotFoundException e) {
+			assertThat(e.getMessage()).isEqualTo("Group was not found for parameters {}");
+			System.out.println(e.getCause());
+		}
+	}
 
+	@Test
+	void testPublishedCardsWithNoEntityFound() {
+		try {
+			List<Group> groupList = new ArrayList<Group>();
+			doReturn(groupList).when(groupRepository).findByGroupValue(any());
+			groupService.findByGroupValue("SNO");
+			fail(" EntityNotFoundException exception not thrown");
+		} catch (EntityNotFoundException e) {
+			assertThat(e.getMessage()).isEqualTo("Group was not found for parameters {Group By=SNO}");
+			System.out.println(e.getCause());
+		}
+	}
 }

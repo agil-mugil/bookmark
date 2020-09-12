@@ -28,7 +28,7 @@ public class BookmarksController {
 
 	@Autowired
 	private BookmarkService bookmarkService;
-	Logger logger = LogManager.getLogger(BookmarksController.class);
+	private Logger logger = LogManager.getLogger(BookmarksController.class);
 
 	private  static final String ALL_BOOKMARKS = "/api/v1/bookmarks";
 	private  static final String CREATE_BOOKMARK = "/createBookmark";

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.eng.stream.hackathon.bookmark.EntityNotFoundException;
 import com.eng.stream.hackathon.bookmark.models.Group;
-import com.eng.stream.hackathon.bookmark.models.GroupAdmin;
 import com.eng.stream.hackathon.bookmark.repositories.GroupRepository;
 
 @Service

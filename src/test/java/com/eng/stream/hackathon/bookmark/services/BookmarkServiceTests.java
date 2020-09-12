@@ -2,6 +2,7 @@ package com.eng.stream.hackathon.bookmark.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.eng.stream.hackathon.bookmark.EntityNotFoundException;
 import com.eng.stream.hackathon.bookmark.models.Bookmark;
 import com.eng.stream.hackathon.bookmark.repositories.BookmarkRepository;
 
@@ -53,4 +55,18 @@ public class BookmarkServiceTests {
 		List<Bookmark> bookmarkList = bookmarkService.getAllBookmarks();
 		assertThat(bookmarkList.size()).isGreaterThan(0);
 	}
+
+	@Test
+	void testFindAllGroupsWithNoEntityFound() {
+		try {
+			List<Bookmark> bookmarkList = new ArrayList<Bookmark>();
+			doReturn(bookmarkList).when(bookmarkRepository).findAll();
+			bookmarkService.getAllBookmarks();
+			fail(" EntityNotFoundException exception not thrown");
+		} catch (EntityNotFoundException e) {
+			assertThat(e.getMessage()).isEqualTo("Bookmark was not found for parameters {}");
+			System.out.println(e.getCause());
+		}
+	}
+	
 }

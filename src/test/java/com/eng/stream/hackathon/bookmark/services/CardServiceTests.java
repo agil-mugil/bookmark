@@ -3,6 +3,7 @@ package com.eng.stream.hackathon.bookmark.services;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.eng.stream.hackathon.bookmark.EntityNotFoundException;
 import com.eng.stream.hackathon.bookmark.models.Card;
 import com.eng.stream.hackathon.bookmark.repositories.CardRepository;
 
@@ -81,6 +83,45 @@ public class CardServiceTests {
 		cardService.deleteCard(1l);
 		cardList.remove(0);
 		assertEquals(0, cardList.size());
+	}
+	
+	@Test
+	void testFindAllCardsWithNoEntityFound() {
+		try {
+			List<Card> cards = new ArrayList<Card>();
+			doReturn(cards).when(cardRepository).findAll();
+			cardService.findAllCards();
+			fail(" EntityNotFoundException exception not thrown");
+		} catch (EntityNotFoundException e) {
+			assertThat(e.getMessage()).isEqualTo("Card was not found for parameters {}");
+			System.out.println(e.getCause());
+		}
+	}
+	
+	@Test
+	void testFindCardsPublishAndGroupIdWithNoEntityFound() {
+		try {
+			List<Card> cards = new ArrayList<Card>();
+			doReturn(cards).when(cardRepository).findByPublishAndGroupId(any(),any());
+			cardService.findByPublishAndGroupId(1L);
+			fail(" EntityNotFoundException exception not thrown");
+		} catch (EntityNotFoundException e) {
+			assertThat(e.getMessage()).isEqualTo("Card was not found for parameters {Publish & Group ID=Y & 1}");
+			System.out.println(e.getCause());
+		}
+	}
+	
+	@Test
+	void testPublishedCardsWithNoEntityFound() {
+		try {
+			List<Card> cards = new ArrayList<Card>();
+			doReturn(cards).when(cardRepository).findByPublish(any());
+			cardService.findAllPublishedCards();
+			fail(" EntityNotFoundException exception not thrown");
+		} catch (EntityNotFoundException e) {
+			assertThat(e.getMessage()).isEqualTo("Card was not found for parameters {Publish=Y}");
+			System.out.println(e.getCause());
+		}
 	}
 
 }
