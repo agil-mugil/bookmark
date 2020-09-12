@@ -55,7 +55,7 @@ class GroupAdminRepositoryIT {
 	@Test
 	@Order(2)
 	public void testCountByGroupId() {
-		Long groupId = 1L;
+		Long groupId = 2L;
 		int groupAdminCounts = groupAdminRepository.countyByGroupId(groupId);
 		assertThat(groupAdminCounts).isGreaterThan(0);
 	}
