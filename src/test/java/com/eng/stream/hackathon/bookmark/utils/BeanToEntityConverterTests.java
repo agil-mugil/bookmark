@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
+import com.eng.stream.hackathon.bookmark.models.Card;
+import com.eng.stream.hackathon.bookmark.models.CardBean;
 import com.eng.stream.hackathon.bookmark.models.Group;
 import com.eng.stream.hackathon.bookmark.models.GroupAdmin;
 import com.eng.stream.hackathon.bookmark.models.GroupAdminBean;
@@ -37,6 +39,30 @@ public class BeanToEntityConverterTests {
 		assertEquals(groupAdmin.getCreator(), groupAdminBean.getCreator());
 		assertEquals(groupAdmin.getUserId(), groupAdminBean.getUserId());
 		assertEquals(groupAdmin.getGroup().getGroupId(), groupAdminBean.getGroupId());
+	}
+	
+	@Test
+	public void testconvertToCardEntity() {
+		
+		CardBean  cardBean  = new CardBean();
+		cardBean.setBookmarkUrl("https://gitter.im/engineering-stream-hackathon/community#");
+		cardBean.setCardTitle("Spring");
+		cardBean.setImageUrl("image/spring.img");
+		cardBean.setShortUrl("http://localhost:8080/bookmark/engineering-stream-hackathon");
+		cardBean.setGroupId(10L);
+		cardBean.setPublish("Y");
+		cardBean.setCreator(cardBean.getCreator());
+		
+		Card card =BeanToEntityConverter.convertToEntity(cardBean);
+		
+		assertNotNull(card);
+		assertEquals(cardBean.getBookmarkUrl(),card.getBookmarkUrl());
+		assertEquals(cardBean.getCardTitle(),card.getCardTitle());
+		assertEquals(cardBean.getImageUrl(),card.getImageUrl());
+		assertEquals(cardBean.getShortUrl(),card.getShortUrl());
+		assertEquals(cardBean.getGroupId(),card.getGroupId());
+		assertEquals(cardBean.getPublish(), card.getPublish());
+		assertEquals(cardBean.getCreator(),card.getCreator());
 	}
 	
 }

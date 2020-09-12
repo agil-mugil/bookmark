@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -71,15 +72,19 @@ public class Group {
 	@ApiModelProperty(hidden = true)
 	private List<GroupAdmin> groupAdmins = new ArrayList<>();
 	
+	@OneToMany
+	@JoinColumn(name = "GROUPID",  referencedColumnName = "GROUPID" , insertable = false, updatable = false)
+	private List<Card> groupCards= new ArrayList<>();
+	
 	public Group() {
 	}
 	
 	public Group(String groupType, String groupValue, String creator, Date createdDate) {
 		super();
-		this.groupType = groupType;
-		this.groupValue = groupValue;
-		this.creator = creator;
-		this.createdDate = createdDate;
+		this.setGroupType(groupType);
+		this.setGroupValue(groupValue);
+		this.setCreator(creator);
+		this.setCreatedDate(createdDate);
 	}
 	public Long getGroupId() {
 		return groupId;
@@ -136,6 +141,15 @@ public class Group {
 
 	public void setGroupAdmins(List<GroupAdmin> groupAdmins) {
 		this.groupAdmins = groupAdmins;
+	}
+
+	
+	public List<Card> getGroupCards() {
+		return groupCards;
+	}
+
+	public void setGroupCards(List<Card> groupCards) {
+		this.groupCards = groupCards;
 	}
 
 	@Override

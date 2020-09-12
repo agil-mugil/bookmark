@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.junit.jupiter.api.Test;
@@ -130,4 +131,17 @@ class GroupTests {
 		assertEquals(100, columnAnnotation.length());
 	}
 	
+	@Test
+	void validateGroupAdmins() throws NoSuchFieldException, SecurityException {
+		Field groupField = groupClass.getDeclaredField("groupAdmins");
+		OneToMany relationShipAnnoation = groupField.getAnnotation(OneToMany.class);
+		assertNotNull(relationShipAnnoation);
+	}
+	
+	@Test
+	void validateGroupCards() throws NoSuchFieldException, SecurityException {
+		Field groupField = groupClass.getDeclaredField("groupCards");
+		OneToMany relationShipAnnoation = groupField.getAnnotation(OneToMany.class);
+		assertNotNull(relationShipAnnoation);
+	}
 }

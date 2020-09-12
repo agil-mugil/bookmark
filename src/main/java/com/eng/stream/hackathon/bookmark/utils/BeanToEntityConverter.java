@@ -2,6 +2,8 @@ package com.eng.stream.hackathon.bookmark.utils;
 
 import java.sql.Date;
 
+import com.eng.stream.hackathon.bookmark.models.Card;
+import com.eng.stream.hackathon.bookmark.models.CardBean;
 import com.eng.stream.hackathon.bookmark.models.Group;
 import com.eng.stream.hackathon.bookmark.models.GroupAdmin;
 import com.eng.stream.hackathon.bookmark.models.GroupAdminBean;
@@ -35,4 +37,17 @@ public class BeanToEntityConverter {
 		
 		return admin;
 }
+	public static Card convertToEntity(CardBean cardBean) {
+		Card card = new Card();
+		card.setBookmarkUrl(cardBean.getBookmarkUrl());
+		card.setCardTitle(cardBean.getCardTitle());
+		card.setCardDesc(cardBean.getCardTitle());
+		card.setImageUrl(cardBean.getImageUrl());
+		card.setShortUrl(cardBean.getShortUrl());
+		card.setGroupId(cardBean.getGroupId());
+		card.setPublish(cardBean.getPublish());
+		card.setCreator(cardBean.getCreator());
+		card.setCreatedDate(new Date(System.currentTimeMillis()));
+		return card;
+	}
 }

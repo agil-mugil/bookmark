@@ -30,11 +30,14 @@ public class GroupRespositoryIT {
 	@Autowired
 	private GroupRepository  groupRepository;
 	
+	@Autowired
+	private CardRepository cardRepository;
+	
 	@Test
 	@Rollback(false)
 	@Order(1)
 	public void testCreateGroup() {
-		Group group = new Group("FT", "SNO", "pmruugesan2012@gmail.com",new Date(System.currentTimeMillis()));
+		Group group = new Group("FT", "SNO", "alex2012@gmail.com",new Date(System.currentTimeMillis()));
 		List<GroupAdmin> groupAdmins = new ArrayList<GroupAdmin>();
 		GroupAdmin groupAdmin = new GroupAdmin();
 		groupAdmin.setUserId(group.getCreator());
@@ -48,7 +51,7 @@ public class GroupRespositoryIT {
 		assertNotNull(saved);
 		System.out.println( saved.toString());
 		GroupAdmin groupAdmin2 = new GroupAdmin();
-		groupAdmin2.setUserId("prabhu.murugesan@gmail.com");
+		groupAdmin2.setUserId("james@gmail.com");
 		groupAdmin2.setCreator("pmruugesan2012@gmail.com");
 		groupAdmin2.setCreatedDate(new Date(System.currentTimeMillis()));
 		groupAdmin2.setGroup(saved);
@@ -68,7 +71,7 @@ public class GroupRespositoryIT {
 	public void testFindGroupByValueExists() {
 		String groupValue = "SNO";
 		List<Group> groups = groupRepository.findByGroupValue(groupValue);
-		assertEquals(1,groups.size());
+		assertThat(groups.size()).isGreaterThan(0);
 		 assertThat(groups).extracting(Group::getGroupValue).contains(groupValue);
 	}
 	
@@ -102,6 +105,7 @@ public class GroupRespositoryIT {
 		assertTrue(existingGroup.isPresent());
 		Long groupId =existingGroup.isPresent()? existingGroup.get().getGroupId():0 ;
 		boolean dataPresentBeforeDelete=  groupRepository.findById(groupId).isPresent();
+		cardRepository.deleteByGroupId(groupId);
 		groupRepository.deleteById(groupId);
 		boolean dataNotPresentAfterDelete = groupRepository.findById(groupId).isPresent();
 		assertTrue(dataPresentBeforeDelete);
@@ -128,6 +132,6 @@ public class GroupRespositoryIT {
 	@Order(6)
 	public void testListActiveGroups() {
 		List<Group> groups = groupRepository.findByEraserIsNull();
-		assertThat(groups.size()).isEqualTo(0);
+		assertThat(groups.size()).isEqualTo(1);
 	}
 }
