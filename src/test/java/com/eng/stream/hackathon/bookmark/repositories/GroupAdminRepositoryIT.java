@@ -1,7 +1,6 @@
 package com.eng.stream.hackathon.bookmark.repositories;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -44,6 +43,7 @@ class GroupAdminRepositoryIT {
 	
 	@Test
 	@Rollback(false)
+	@Order(3)
 	public void testDeleteGroupAdminByGroupId() {
 		GroupAdmin groupAdmin = new GroupAdmin();
 		groupAdmin.setGroupUserId(2L);
@@ -53,6 +53,7 @@ class GroupAdminRepositoryIT {
 	
 	
 	@Test
+	@Order(2)
 	public void testCountByGroupId() {
 		Long groupId = 1L;
 		int groupAdminCounts = groupAdminRepository.countyByGroupId(groupId);
