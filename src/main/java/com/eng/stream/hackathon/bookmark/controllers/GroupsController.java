@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eng.stream.hackathon.bookmark.models.Group;
 import com.eng.stream.hackathon.bookmark.models.GroupBean;
 import com.eng.stream.hackathon.bookmark.services.GroupService;
+import com.eng.stream.hackathon.bookmark.utils.BeanToEntityConverter;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -45,7 +46,7 @@ public class GroupsController {
 	public ResponseEntity<Group> createGroup(@RequestBody GroupBean groupBean) {
 		try {
             return ResponseEntity.created(new URI(CREATE_GROUP))
-                    .body(groupService.createGroup(groupBean.getGroupEntity()));
+                    .body(groupService.createGroup(BeanToEntityConverter.convertToEntity(groupBean)));
         } catch (URISyntaxException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

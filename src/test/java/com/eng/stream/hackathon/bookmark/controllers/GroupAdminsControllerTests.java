@@ -26,6 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.eng.stream.hackathon.bookmark.models.GroupAdmin;
+import com.eng.stream.hackathon.bookmark.models.GroupAdminBean;
 import com.eng.stream.hackathon.bookmark.services.GroupAdminService;
 import com.eng.stream.hackathon.bookmark.utils.CommonUtils;
 
@@ -71,7 +72,7 @@ public class GroupAdminsControllerTests {
     @DisplayName("POST /api/v1/groupAdmins/createGroupAdmin")
     void testCreateGroup() throws Exception {
         // Setup our mocked service
- 		GroupAdmin inputGroupAdmin = new GroupAdmin( "pmurugesan2012@gmail.com","pmurugesan2012@gmail.com",new Date(System.currentTimeMillis()));
+ 		GroupAdminBean groupAdminBean= new GroupAdminBean(1L, "pmurugesan2012@gmail.com","pmurugesan2012@gmail.com");
  		GroupAdmin returnedGroupAdmin =  new GroupAdmin( "pmurugesan2012@gmail.com","pmurugesan2012@gmail.com",new Date(System.currentTimeMillis()));
  		returnedGroupAdmin.setGroupUserId(1L);
         doReturn(returnedGroupAdmin).when(groupAdminService).addGroupAdmin(any());
@@ -79,7 +80,7 @@ public class GroupAdminsControllerTests {
         // Execute the POST request
         mockMvc.perform(post("/api/v1/groupAdmins/createGroupAdmin")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(CommonUtils.asJsonString(inputGroupAdmin)))
+                .content(CommonUtils.asJsonString(groupAdminBean)))
                 // Validate the response code and content type
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

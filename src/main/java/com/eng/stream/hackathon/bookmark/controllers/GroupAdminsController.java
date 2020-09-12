@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eng.stream.hackathon.bookmark.models.GroupAdmin;
+import com.eng.stream.hackathon.bookmark.models.GroupAdminBean;
 import com.eng.stream.hackathon.bookmark.services.GroupAdminService;
+import com.eng.stream.hackathon.bookmark.utils.BeanToEntityConverter;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -42,10 +44,10 @@ public class GroupAdminsController {
 	
 	@PostMapping(CREATE_GROUP_ADMIN)
 	@ApiOperation(value = "Create the group admin", notes = "Service to create a admin of a group  in the system", response =ResponseEntity.class )
-	public ResponseEntity<GroupAdmin> createGroupAdmin(@RequestBody GroupAdmin groupAdmin) {
+	public ResponseEntity<GroupAdmin> createGroupAdmin(@RequestBody GroupAdminBean groupAdminBean) {
 		try {
             return ResponseEntity.created(new URI(CREATE_GROUP_ADMIN))
-                    .body(adminService.addGroupAdmin(groupAdmin));
+                    .body(adminService.addGroupAdmin(BeanToEntityConverter.convertToEntity(groupAdminBean)));
         } catch (URISyntaxException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

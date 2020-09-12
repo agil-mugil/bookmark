@@ -1,9 +1,5 @@
 package com.eng.stream.hackathon.bookmark.models;
 
-import java.sql.Date;
-
-import io.swagger.annotations.ApiModelProperty;
-
 public class GroupBean {
 	private String groupType;
 	 private String groupValue;
@@ -37,16 +33,6 @@ public class GroupBean {
 		this.groupType = groupType;
 		this.groupValue = groupValue;
 		this.creator = creator;
-	}
-	
-	@ApiModelProperty(hidden = true)
-	public Group getGroupEntity() {
-		Group group = new Group(this.getGroupType(), this.getGroupValue(), 
-				this.getCreator(),new Date(System.currentTimeMillis()));
-		GroupAdmin admin = new GroupAdmin(this.getCreator(),this.getCreator(),new Date(System.currentTimeMillis()));
-		admin.setGroup(group);
-		group.getGroupAdmins().add(admin);
-		return group;
 	}
 	 
 }

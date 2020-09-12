@@ -66,7 +66,7 @@ public class Group {
 	@Column(name="OPEDEL", length=100, nullable=true, unique=false)
 	 private String eraser;
 	 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="group", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="group", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties("group")
 	@ApiModelProperty(hidden = true)
 	private List<GroupAdmin> groupAdmins = new ArrayList<>();

@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.swagger.annotations.ApiModel;
@@ -54,7 +56,7 @@ public class GroupAdmin {
 	@Column(name="OPEDEL", length=100, nullable=true, unique=false)
 	 private String eraser;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "GROUPID",referencedColumnName="groupid")
 	@JsonIgnoreProperties("groupAdmins")
 	private Group group = new Group();
@@ -126,10 +128,16 @@ public class GroupAdmin {
 		this.eraser = eraser;
 	}
 
+	public Long getGroupId() {
+		return this.group.getGroupId();
+	}
+
+	@JsonIgnore
 	public Group getGroup() {
 		return group;
 	}
 
+	@JsonIgnore
 	public void setGroup(Group group) {
 		this.group = group;
 	}
