@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.eng.stream.hackathon.bookmark.EntityNotFoundException;
 import com.eng.stream.hackathon.bookmark.models.GroupAdmin;
 import com.eng.stream.hackathon.bookmark.repositories.GroupAdminRepository;
 
@@ -30,7 +31,11 @@ public class GroupAdminServiceImpl implements GroupAdminService {
 
 	@Override
 	public List<GroupAdmin> getGroupAdmins(Long groupId) {
-		return groupAdminRepository.findAllByGroupId(groupId);
+		List<GroupAdmin> groupAdmins = groupAdminRepository.findAllByGroupId(groupId);
+		if(groupAdmins.isEmpty()) {
+			throw new EntityNotFoundException(GroupAdmin.class, "Group Id", groupId.toString());
+		}
+		return groupAdmins;
 	}
 
 }

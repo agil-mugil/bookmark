@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.eng.stream.hackathon.bookmark.EntityNotFoundException;
 import com.eng.stream.hackathon.bookmark.models.Group;
+import com.eng.stream.hackathon.bookmark.models.GroupAdmin;
 import com.eng.stream.hackathon.bookmark.repositories.GroupRepository;
 
 @Service
@@ -21,7 +23,11 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public List<Group> findAllGroups() {
-		return groupRepository.findAll();
+		List<Group> groups = groupRepository.findAll();
+		if(groups.isEmpty()) {
+			throw new EntityNotFoundException(Group.class);
+		}
+		return groups;
 	}
 
 	@Override
@@ -31,7 +37,11 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public List<Group> findByGroupValue(String groupValue) {
-		return groupRepository.findByGroupValue(groupValue);
+		List<Group> groups = groupRepository.findByGroupValue(groupValue);
+		if(groups.isEmpty()) {
+			throw new EntityNotFoundException(Group.class, "Group By", groupValue);
+		}
+		return groups;
 	}
 
 } 

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.eng.stream.hackathon.bookmark.EntityNotFoundException;
 import com.eng.stream.hackathon.bookmark.models.Bookmark;
 import com.eng.stream.hackathon.bookmark.repositories.BookmarkRepository;
 
@@ -21,7 +22,11 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Override
 	public List<Bookmark> getAllBookmarks() {
-		return bookmarkRepository.findAll();
+		List<Bookmark> bookmarks = bookmarkRepository.findAll();
+		if(bookmarks.isEmpty()) {
+			throw new EntityNotFoundException(Bookmark.class);
+		}
+		return bookmarks;
 	}
 
 }
