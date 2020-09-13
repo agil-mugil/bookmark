@@ -15,6 +15,8 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.annotations.ApiModelProperty;
 
 @MappedSuperclass
@@ -43,6 +45,7 @@ public abstract class Auditable<U> {
     @ApiModelProperty(hidden = true)
     protected Date lastModifiedDate;
 
+    @JsonIgnore
     public U getCreatedBy() {
         return createdBy;
     }
@@ -51,6 +54,7 @@ public abstract class Auditable<U> {
         this.createdBy = createdBy;
     }
 
+    @JsonIgnore
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -59,6 +63,7 @@ public abstract class Auditable<U> {
         this.createdDate = createdDate;
     }
 
+    @JsonIgnore
     public U getLastModifiedBy() {
         return lastModifiedBy;
     }
@@ -67,6 +72,7 @@ public abstract class Auditable<U> {
         this.lastModifiedBy = lastModifiedBy;
     }
 
+    @JsonIgnore
     public Date getLastModifiedDate() {
         return lastModifiedDate;
     }

@@ -73,6 +73,29 @@ public class CardsControllerTests {
                 .andExpect(jsonPath("$[1].cardTitle", is("Hackathon")))
                 .andExpect(jsonPath("$[1].publish", is("Y")));
     }
+	
+	@Test
+    @DisplayName("GET /cardByShortURL success")
+    void testGetCardByShortUrlSuccess() throws Exception {
+        // Setup our mocked service
+		Card card = new Card("https://www.baeldung.com/database-auditing-jpa","Spring",
+				"image/spring.img", "http://localhost:8080/bookmark/baeldung",1L, "Y" );
+		String shortUrl = "http://localhost:8080/bookmark/baeldung";
+        doReturn(card).when(cardService).findByShortUrl(shortUrl);
+
+        // Execute the GET request
+        mockMvc.perform(get("/api/v1/cards/cardByShortUrl?shortUrl="+shortUrl))
+                // Validate the response code and content type
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                // Validate headers
+                .andExpect(header().string(HttpHeaders.LOCATION, "/cardByShortUrl"))
+
+                // Validate the returned fields
+                .andExpect(jsonPath("$.bookmarkUrl", is("https://www.baeldung.com/database-auditing-jpa")))
+                .andExpect(jsonPath("$.publish", is("Y")));
+    }
+
 
  	@Test
     @DisplayName("POST /api/v1/cards/createCard")

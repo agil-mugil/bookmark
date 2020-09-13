@@ -55,8 +55,8 @@ public class CardRepositoryIT {
 		Card saved =cardRepository.saveAndFlush(card);
 		assertNotNull(saved);
 		
-		Card cardTwo = new Card("https://gitter.im/engineering-stream-hackathon/community#","Spring",
-				"image/spring.img", "http://localhost:8080/bookmark/engineering-stream-hackathon",group.getGroupId(), "N");
+		Card cardTwo = new Card("https://www.fiftythree.com/","Spring",
+				"image/spring.img", "http://localhost:4200/fiftythree",group.getGroupId(), "Y");
 		saved =cardRepository.saveAndFlush(cardTwo);
 		assertNotNull(saved);
 	}
@@ -84,7 +84,7 @@ public class CardRepositoryIT {
 	@Order(4)
 	public void testAllPublishedCards() {
 		List<Card> cards = cardRepository.findByPublish("Y");
-		assertEquals(1, cards.size());
+		assertEquals(2, cards.size());
 	}
 	
 	@Test
@@ -92,13 +92,22 @@ public class CardRepositoryIT {
 	public void testAllPublishedCardsByGroup() {
 		Long groupId = 1L;
 		List<Card> cards = cardRepository.findByPublishAndGroupId("Y",groupId );
-		assertEquals(1,cards.size());
+		assertEquals(2,cards.size());
 		 assertThat(cards).extracting(Card::getPublish).contains("Y");
 	}
 	
 	@Test
-	@Rollback(false)
 	@Order(6)
+	public void testFindByShortUrlAndPublish() {
+		String shortUrl = "http://localhost:4200/fiftythree";
+		Card card = cardRepository.findByShortUrlAndPublish(shortUrl, "Y");
+		assertNotNull(card);
+		 assertThat(card.getBookmarkUrl()).isEqualTo("https://www.fiftythree.com/");
+	}
+	
+	@Test
+	@Rollback(false)
+	@Order(7)
 	public void testDeleteCard() {
 		List<Card> cardList = cardRepository.findAll();
 		Optional<Card> existingCards = cardList.stream().findFirst();

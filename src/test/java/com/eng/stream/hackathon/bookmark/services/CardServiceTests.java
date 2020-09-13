@@ -123,5 +123,29 @@ public class CardServiceTests {
 			System.out.println(e.getCause());
 		}
 	}
+	
+	@Test
+	void testFindCardByShortUrl() {
+		Card card = new Card("https://www.fiftythree.com/","Spring",
+				"image/spring.img", "http://localhost:4200/fiftythree",1L, "Y");
+		doReturn(card).when(cardRepository).findByShortUrlAndPublish(any(), any());
+		String shortUrl = "http://localhost:4200/fiftythree";
+		Card returnedCard  = cardService.findByShortUrl(shortUrl);
+		assertThat(returnedCard.getBookmarkUrl()).isEqualTo("https://www.fiftythree.com/");
+	}
+	
+	@Test
+	void testFindCardByShortUrlWithNoEntityFound() {
+		try {
+			Card card = null;
+			doReturn(card).when(cardRepository).findByShortUrlAndPublish(any(), any());
+			String shortUrl = "http://localhost:4200/fiftythree";
+			cardService.findByShortUrl(shortUrl);
+			fail(" EntityNotFoundException exception not thrown");
+		} catch (EntityNotFoundException e) {
+			assertThat(e.getMessage()).isEqualTo("Card was not found for parameters {Short Url & Publish=http://localhost:4200/fiftythree & Y}");
+			System.out.println(e.getCause());
+		}
+	}
 
 }

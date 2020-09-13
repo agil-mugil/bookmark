@@ -15,5 +15,7 @@ public interface CardService {
 	public List<Card> findByPublishAndGroupId(Long groupId);
 
 	public void deleteCard(long cardId);
+	
+	public Card findByShortUrl(String shortUrl);
 
 }

@@ -52,4 +52,13 @@ public class CardServiceImpl implements CardService {
 		cardRepository.deleteById(cardId);
 	}
 
+	@Override
+	public Card findByShortUrl(String shortUrl) {
+		Card card = cardRepository.findByShortUrlAndPublish(shortUrl, "Y");
+		if(card==null) {
+			throw new EntityNotFoundException(Card.class,"Short Url & Publish", shortUrl+" & Y");
+		}
+		return card;
+	}
+
 }

@@ -15,5 +15,7 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 	public List<Card> findByGroupId(Long groupId);
 
 	public void deleteByGroupId(Long groupId);
+	
+	public Card findByShortUrlAndPublish(String shortUrl, String publish);
 
 }
