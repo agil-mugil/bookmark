@@ -10,6 +10,7 @@ public interface GroupService {
 	public List<Group> findAllGroups();
 	public void deleteGroup(Long groupId);
 	public List<Group> findByGroupValue(String groupValue);
+	public String[] groupTypes();
 	
 	
 }

@@ -20,5 +20,6 @@ public class BookmarkApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BookmarkApplication.class, args);
 	}
+	
 
 }

@@ -8,6 +8,8 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.core.annotation.Order;
 import org.springframework.test.annotation.Rollback;
@@ -17,7 +19,7 @@ import com.eng.stream.hackathon.bookmark.models.GroupAdmin;
 
 @DataJpaTest
 @TestMethodOrder(OrderAnnotation.class)
-//@AutoConfigureTestDatabase(replace = Replace.NONE)
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 class GroupAdminRepositoryIT {
 
 	@Autowired
@@ -31,7 +33,7 @@ class GroupAdminRepositoryIT {
 	@Rollback(false)
 	@Order(1)
 	public void testCreateGroup() {
-		Group group = new Group("FT", "SKT");
+		Group group = new Group("FT", "ENO");
 		Group result = groupRepo.save(group);
 		GroupAdmin groupAdmin = new GroupAdmin();
 		groupAdmin.setUserId("anderson@gmail.com");

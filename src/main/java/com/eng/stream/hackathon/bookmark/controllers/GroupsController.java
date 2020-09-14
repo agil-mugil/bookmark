@@ -29,6 +29,8 @@ public class GroupsController {
 	
 	private  static final String ALL_GROUPS_MAPPING = "/api/v1/groups";
 	private  static final String CREATE_GROUP = "/createGroup";
+	private static final String GROUP_TYPES="/groupTypes";
+	
 	@GetMapping
 	@ApiOperation(value = "Get all the groups", notes = "This service will get all the Groups available in the system", response =ResponseEntity.class )
 	public ResponseEntity<List<Group>> allGroups() {
@@ -51,4 +53,17 @@ public class GroupsController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 	}
+	
+	@GetMapping(GROUP_TYPES)
+	@ApiOperation(value = "Get all the group types", notes = "This service will get all the Groups types available in the system", response =ResponseEntity.class)
+	public ResponseEntity<String[]> groupTypes() {
+		try {
+            return ResponseEntity.ok()
+                    .location((new URI(GROUP_TYPES)))
+                    .body(groupService.groupTypes());
+        } catch (URISyntaxException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+	}
+	
 }

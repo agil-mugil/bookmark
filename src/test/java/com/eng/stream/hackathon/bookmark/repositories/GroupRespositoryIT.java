@@ -83,9 +83,6 @@ public class GroupRespositoryIT {
 	public void testListGroups() {
 		List<Group> groups = groupRepository.findAll();
 		assertThat(groups.size()).isGreaterThan(0);
-		for (Group group : groups) {
-			System.out.println(group.toString());
-		}
 	}
 	
 	@Test
@@ -105,6 +102,13 @@ public class GroupRespositoryIT {
 		boolean dataNotPresentAfterDelete = groupRepository.findById(groupId).isPresent();
 		assertTrue(dataPresentBeforeDelete);
 		assertFalse(dataNotPresentAfterDelete);
+	}
+	
+	
+	@Test
+	public void testGroupTypes() {
+		String groupTypes[] = groupRepository.getGroupTypes();
+		assertThat(groupTypes.length).isEqualTo(3);
 	}
 	
 }

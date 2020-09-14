@@ -43,4 +43,9 @@ public class GroupServiceImpl implements GroupService {
 		return groups;
 	}
 
+	@Override
+	public String[] groupTypes() {
+		return groupRepository.getGroupTypes();
+	}
+
 } 
