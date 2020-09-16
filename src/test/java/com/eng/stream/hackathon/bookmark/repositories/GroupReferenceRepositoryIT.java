@@ -39,7 +39,7 @@ public class GroupReferenceRepositoryIT {
 	public void testFindByGroupType() {
 		String groupType = "FT";
 		List<GroupReference> groupRefrences = groupReferenceRepository.findByGroupType(groupType);
-		assertThat(groupRefrences.size()).isEqualTo(5);
+		assertThat(groupRefrences.size()).isEqualTo(4);
 		for (GroupReference groupReference : groupRefrences) {
 			System.out.println(groupReference.getGroupValue());
 		}

@@ -69,7 +69,6 @@ public class GroupAdmin extends Auditable<String> {
 		return group;
 	}
 
-	@JsonIgnore
 	public void setGroup(Group group) {
 		this.group = group;
 	}

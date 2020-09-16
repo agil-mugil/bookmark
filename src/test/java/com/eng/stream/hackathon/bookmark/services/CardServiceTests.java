@@ -89,7 +89,7 @@ public class CardServiceTests {
 	void testFindAllCardsWithNoEntityFound() {
 		try {
 			List<Card> cards = new ArrayList<Card>();
-			doReturn(cards).when(cardRepository).findAll();
+			doReturn(cards).when(cardRepository).findByPublish(any());
 			cardService.findAllCards();
 			fail(" EntityNotFoundException exception not thrown");
 		} catch (EntityNotFoundException e) {

@@ -1,5 +1,6 @@
 package com.eng.stream.hackathon.bookmark.services;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,12 @@ public class GroupAdminServiceImpl implements GroupAdminService {
 	@Autowired
 	private GroupAdminRepository groupAdminRepository;
 	@Override
-	public GroupAdmin addGroupAdmin(GroupAdmin groupAdmin) {
-		return groupAdminRepository.save(groupAdmin);
+	public GroupAdmin addGroupAdmin(GroupAdmin groupAdmin) throws SQLIntegrityConstraintViolationException {
+		if(groupAdminRepository.findCountByGroupAndUserId(groupAdmin.getGroupId(), groupAdmin.getUserId())==0) {
+			return groupAdminRepository.save(groupAdmin);
+		}else {
+			throw new SQLIntegrityConstraintViolationException("User already part of group admin");
+		}
 	}
 
 	@Override

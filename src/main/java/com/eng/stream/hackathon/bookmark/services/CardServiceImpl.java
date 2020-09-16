@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.eng.stream.hackathon.bookmark.EntityNotFoundException;
 import com.eng.stream.hackathon.bookmark.models.Card;
 import com.eng.stream.hackathon.bookmark.repositories.CardRepository;
+import com.eng.stream.hackathon.bookmark.repositories.GroupAdminRepository;
 
 @Service
 public class CardServiceImpl implements CardService {
@@ -15,14 +16,22 @@ public class CardServiceImpl implements CardService {
 	@Autowired
 	private CardRepository cardRepository;
 	
+	@Autowired
+	private GroupAdminRepository groupAdminRepository;
+	
 	@Override
 	public Card createCard(Card card) {
+		String publish = "Y";
+		if(groupAdminRepository.findCountByGroupAndUserId(card.getGroupId(), card.getCreatedBy())==0){
+			publish = "N";
+		}
+		card.setPublish(publish);
 		return cardRepository.saveAndFlush(card);
 	}
 
 	@Override
 	public List<Card> findAllCards() {
-		List<Card> cards = cardRepository.findAll();
+		List<Card> cards = cardRepository.findByPublish("Y");
 		if(cards.isEmpty()) {
 			throw new EntityNotFoundException(Card.class);
 		}

@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,13 +47,26 @@ class GroupAdminServiceTests {
 	
 	@Test
 	@Order(1)
-	void testCreateGroup() {
+	void testCreateGroup() throws SQLIntegrityConstraintViolationException {
 		GroupAdmin groupAdmin = new GroupAdmin();
 		groupAdmin.setUserId("pmurugesan2012@gmail.com");
+		doReturn(0).when(adminRepository).findCountByGroupAndUserId(1L, "pmurugesan2012@gmail.com");
 	    doReturn(groupAdmin).when(adminRepository).save(any());
 	    GroupAdmin created = adminService.addGroupAdmin(groupAdmin);
 		assertNotNull(created);
 		assertEquals("pmurugesan2012@gmail.com",created.getUserId());
+	}
+	@Test
+	@Order(2)
+	void testCreateGroupDataIntegrityException() {
+		try {
+		GroupAdmin groupAdmin = new GroupAdmin();
+		groupAdmin.setUserId("pmurugesan2012@gmail.com");
+		doReturn(1).when(adminRepository).findCountByGroupAndUserId(1L, "pmurugesan2012@gmail.com");
+		adminService.addGroupAdmin(groupAdmin);
+		}catch(SQLIntegrityConstraintViolationException e) {
+			assertThat(e.getMessage()).isEqualTo("User already part of group admin");
+		}
 	}
 
 	@Test

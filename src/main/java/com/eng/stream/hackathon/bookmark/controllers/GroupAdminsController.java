@@ -2,6 +2,7 @@ package com.eng.stream.hackathon.bookmark.controllers;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class GroupAdminsController {
                     .location((new URI(ALL_GROUP_ADMINS)))
                     .body(adminService.getGroupAdmins(groupId));
         } catch (URISyntaxException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        	 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 	}
 	
@@ -52,9 +53,11 @@ public class GroupAdminsController {
 			groupAdminBean.setUsername(currentUser);
             return ResponseEntity.created(new URI(CREATE_GROUP_ADMIN))
                     .body(adminService.addGroupAdmin(BeanToEntityConverter.convertToEntity(groupAdminBean)));
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException url) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        } catch (SQLIntegrityConstraintViolationException e) {
+        	 return ResponseEntity.badRequest().header("error", "Useralready part of admin group").build();
+        } 
 	}
 	
 	@DeleteMapping(DELETE_GROUP_ADMIN)
