@@ -8,6 +8,5 @@ public interface GroupAdminService {
 
 	public GroupAdmin addGroupAdmin(GroupAdmin groupAdmin);
 	public void deleteGroupAdmin(long groupId);
-	public int getAdminsCountOfGroup(Long groupId);
 	public List<GroupAdmin> getGroupAdmins(Long groupId);
 }

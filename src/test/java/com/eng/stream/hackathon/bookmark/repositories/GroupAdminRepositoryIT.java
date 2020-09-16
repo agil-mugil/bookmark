@@ -1,10 +1,9 @@
 package com.eng.stream.hackathon.bookmark.repositories;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import com.eng.stream.hackathon.bookmark.models.Group;
 import com.eng.stream.hackathon.bookmark.models.GroupAdmin;
 
 @DataJpaTest
-@TestMethodOrder(OrderAnnotation.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 class GroupAdminRepositoryIT {
 
@@ -48,19 +47,11 @@ class GroupAdminRepositoryIT {
 	@Rollback(false)
 	@Order(3)
 	public void testDeleteGroupAdminByGroupId() {
-		GroupAdmin groupAdmin = new GroupAdmin();
-		groupAdmin.setGroupUserId(2L);
-		groupAdminRepository.delete(groupAdmin);
-		assertTrue(true);
+		Long groupUserId = 1L;
+		assertNotNull(groupAdminRepository.findById(groupUserId));
+		groupAdminRepository.deleteById(groupUserId);
+		assertTrue(groupAdminRepository.findById(groupUserId).isEmpty());
 	}
 	
-	
-	@Test
-	@Order(2)
-	public void testCountByGroupId() {
-		Long groupId = 1L;
-		int groupAdminCounts = groupAdminRepository.countyByGroupId(groupId);
-		assertThat(groupAdminCounts).isGreaterThan(0);
-	}
 	 
 }

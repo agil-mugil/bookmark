@@ -69,7 +69,7 @@ public class GroupAdminsControllerTests {
 
  	@Test
     @DisplayName("POST /api/v1/groupAdmins/createGroupAdmin")
-    void testCreateGroup() throws Exception {
+    void testCreateGroupAdmin() throws Exception {
         // Setup our mocked service
  		GroupAdminBean groupAdminBean= new GroupAdminBean();
  		groupAdminBean.setUserId("pmurugesan2012@gmail.com");
@@ -91,4 +91,5 @@ public class GroupAdminsControllerTests {
                 .andExpect(jsonPath("$.groupUserId", is(1)))
                 .andExpect(jsonPath("$.userId", is("pmurugesan2012@gmail.com")));
     }
+ 	
 }

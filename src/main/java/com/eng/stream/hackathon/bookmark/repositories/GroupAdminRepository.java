@@ -9,9 +9,6 @@ import org.springframework.data.repository.query.Param;
 import com.eng.stream.hackathon.bookmark.models.GroupAdmin;
 
 public interface GroupAdminRepository extends JpaRepository<GroupAdmin, Long> {
-
-    @Query("select count(*) from GroupAdmin g where g.group.groupId=:groupId")
-	public int countyByGroupId(@Param("groupId") Long groupId);
     @Query("select g  from GroupAdmin g where g.group.groupId=:groupId")
     public List<GroupAdmin> findAllByGroupId(@Param("groupId") Long groupId);
 }

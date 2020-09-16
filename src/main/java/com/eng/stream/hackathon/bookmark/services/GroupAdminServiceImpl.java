@@ -25,11 +25,6 @@ public class GroupAdminServiceImpl implements GroupAdminService {
 	}
 
 	@Override
-	public int getAdminsCountOfGroup(Long groupId) {
-		return groupAdminRepository.countyByGroupId(groupId);
-	}
-
-	@Override
 	public List<GroupAdmin> getGroupAdmins(Long groupId) {
 		List<GroupAdmin> groupAdmins = groupAdminRepository.findAllByGroupId(groupId);
 		if(groupAdmins.isEmpty()) {

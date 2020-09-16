@@ -1,5 +1,7 @@
 package com.eng.stream.hackathon.bookmark.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class GroupAdminBean {
 
 	private Long groupId;
@@ -20,6 +22,7 @@ public class GroupAdminBean {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+	@JsonIgnore
 	public String getUsername() {
 		return username;
 	}

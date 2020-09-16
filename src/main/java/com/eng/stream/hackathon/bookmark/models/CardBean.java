@@ -1,5 +1,7 @@
 package com.eng.stream.hackathon.bookmark.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class CardBean {
 
 	private String bookmarkUrl;
@@ -66,6 +68,7 @@ public class CardBean {
 	public void setPublish(String publish) {
 		this.publish = publish;
 	}
+	@JsonIgnore
 	public String getUsername() {
 		return username;
 	}

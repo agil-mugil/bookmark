@@ -1,5 +1,7 @@
 package com.eng.stream.hackathon.bookmark.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class GroupBean {
 	private String groupType;
 	private String groupValue;
@@ -25,6 +27,7 @@ public class GroupBean {
 		this.groupType = groupType;
 		this.groupValue = groupValue;
 	}
+	@JsonIgnore
 	public String getUsername() {
 		return username;
 	}

@@ -41,7 +41,6 @@ class GroupAdminServiceTests {
 		groupAdmin.setUserId("pmurugesan2012@gmail.com");
 		groupAdminList.add(groupAdmin);
 	    Mockito.when(adminRepository.findAllByGroupId(any())).thenReturn(groupAdminList);
-	    Mockito.when(adminRepository.countyByGroupId(any())).thenReturn(2);
 	    Mockito.when(adminRepository.findAllByGroupId(any())).thenReturn(groupAdminList);
 	}
 	
@@ -54,15 +53,6 @@ class GroupAdminServiceTests {
 	    GroupAdmin created = adminService.addGroupAdmin(groupAdmin);
 		assertNotNull(created);
 		assertEquals("pmurugesan2012@gmail.com",created.getUserId());
-	}
-
-	@Test
-	@Order(2)
-	void testCountByGroupId() {
-		Long groupId = 1L;
-	    int adminsCount = adminService.getAdminsCountOfGroup(groupId);
-	    assertEquals(2,adminsCount);
-	    
 	}
 
 	@Test
