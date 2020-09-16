@@ -1,5 +1,6 @@
 package com.eng.stream.hackathon.bookmark.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +49,14 @@ public class CardServiceImpl implements CardService {
 	}
 
 	@Override
-	public List<Card> findByPublishAndGroupId(Long groupId) {
-		List<Card> cards =  cardRepository.findByPublishAndGroupId("Y", groupId);
+	public List<Card> findByPublishAndGroupId(Long groupId,String currentUser) {
+		List<Card> cards = new ArrayList<Card>();
+		// if the user is admin, display all the cards including the not marked as published, else display published ones only
+		if(groupAdminRepository.findCountByGroupAndUserId(groupId, currentUser)==0){
+			cards =  cardRepository.findByPublishAndGroupId("Y", groupId);
+		} else {
+			cards=cardRepository.findByGroupId(groupId);
+		}
 		if(cards.isEmpty()) {
 			throw new EntityNotFoundException(Card.class,"Publish & Group ID", "Y & "+groupId);
 		}

@@ -60,11 +60,11 @@ public class CardsController {
 	
 	@GetMapping(CARDS_BY_GROUP)
 	@ApiOperation(value = "Get all the card belongs a group", notes = "This service is to get all group belongs a group", response =ResponseEntity.class )
-	public ResponseEntity<List<Card>> cardsByGroup(@RequestParam Long groupId) {
+	public ResponseEntity<List<Card>> cardsByGroup(@RequestParam Long groupId,@RequestHeader("username") String currentUser) {
 		try {
             return ResponseEntity.ok()
                     .location((new URI(CARDS_BY_GROUP)))
-                    .body(cardService.findByPublishAndGroupId(groupId));
+                    .body(cardService.findByPublishAndGroupId(groupId,currentUser));
         } catch (URISyntaxException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

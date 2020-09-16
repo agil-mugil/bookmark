@@ -23,6 +23,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import com.eng.stream.hackathon.bookmark.EntityNotFoundException;
 import com.eng.stream.hackathon.bookmark.models.Card;
 import com.eng.stream.hackathon.bookmark.repositories.CardRepository;
+import com.eng.stream.hackathon.bookmark.repositories.GroupAdminRepository;
 
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
@@ -32,6 +33,9 @@ public class CardServiceTests {
 	
 	@MockBean
 	private CardRepository  cardRepository;
+	
+	@MockBean
+	private GroupAdminRepository  adminRepo;
 	
 	private List<Card> cardList = new ArrayList<Card>();
 	@BeforeEach
@@ -73,7 +77,7 @@ public class CardServiceTests {
 	@Order(4)
 	void testFindAllGroupPublishedCards() {
 		Long groupId = 1L;
-		List<Card> cardList  = cardService.findByPublishAndGroupId(groupId);
+		List<Card> cardList  = cardService.findByPublishAndGroupId(groupId,"Prabhu.murugesan");
 		assertThat(cardList.size()).isGreaterThan(0);
 	}
 
@@ -101,9 +105,10 @@ public class CardServiceTests {
 	@Test
 	void testFindCardsPublishAndGroupIdWithNoEntityFound() {
 		try {
+			doReturn(0).when(adminRepo).findCountByGroupAndUserId(any(), any());
 			List<Card> cards = new ArrayList<Card>();
 			doReturn(cards).when(cardRepository).findByPublishAndGroupId(any(),any());
-			cardService.findByPublishAndGroupId(1L);
+			cardService.findByPublishAndGroupId(1L,"prabhu.murugesan");
 			fail(" EntityNotFoundException exception not thrown");
 		} catch (EntityNotFoundException e) {
 			assertThat(e.getMessage()).isEqualTo("Card was not found for parameters {Publish & Group ID=Y & 1}");

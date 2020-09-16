@@ -12,7 +12,7 @@ public interface CardService {
 
 	public List<Card> findAllPublishedCards();
 
-	public List<Card> findByPublishAndGroupId(Long groupId);
+	public List<Card> findByPublishAndGroupId(Long groupId,String currentUser);
 
 	public void deleteCard(long cardId);
 	

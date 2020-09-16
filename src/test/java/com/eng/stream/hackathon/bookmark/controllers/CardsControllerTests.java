@@ -97,10 +97,10 @@ public class CardsControllerTests {
     }
 
 	@Test
-    @DisplayName("GET /carsByGroup success")
+    @DisplayName("GET /cardsByGroup success")
     void testGetCardsByGroups() throws Exception {
 		Card cardOne = new Card("https://www.baeldung.com/database-auditing-jpa","Spring",
-				"image/spring.img", "http://localhost:8080/bookmark/baeldung",1L, "N" );
+				"image/spring.img", "http://localhost:8080/bookmark/baeldung",1L, "Y" );
 		
 		Card cardTwo = new Card("https://gitter.im/engineering-stream-hackathon/community#","Hackathon",
 				"image/spring.img", "http://localhost:8080/engineering-stream-hackathon",1L, "Y");
@@ -109,15 +109,16 @@ public class CardsControllerTests {
  		cards.add(cardOne);
  		cards.add(cardTwo);
         // Setup our mocked service
-        doReturn(cards).when(cardService).findByPublishAndGroupId(1L);
+        doReturn(cards).when(cardService).findByPublishAndGroupId(any(),any());
 
         // Execute the GET request
-        mockMvc.perform(get("/api/v1/cards/cardsByGroup?groupId="+1L))
+        mockMvc.perform(get("/api/v1/cards/cardsByGroup?groupId="+1L).
+		header("username", "prabhu.murugesan"))
         .andExpect(jsonPath("$", hasSize(2)))
         .andExpect(jsonPath("$[0].bookmarkUrl", is("https://www.baeldung.com/database-auditing-jpa")))
         .andExpect(jsonPath("$[0].shortUrl", is("http://localhost:8080/bookmark/baeldung")))
         .andExpect(jsonPath("$[0].cardTitle", is("Spring")))
-        .andExpect(jsonPath("$[0].publish", is("N")))
+        .andExpect(jsonPath("$[0].publish", is("Y")))
         .andExpect(jsonPath("$[1].bookmarkUrl", is("https://gitter.im/engineering-stream-hackathon/community#")))
         .andExpect(jsonPath("$[1].shortUrl", is("http://localhost:8080/engineering-stream-hackathon")))
         .andExpect(jsonPath("$[1].cardTitle", is("Hackathon")))
