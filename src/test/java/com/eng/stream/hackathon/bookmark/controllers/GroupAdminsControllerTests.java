@@ -82,6 +82,7 @@ public class GroupAdminsControllerTests {
         // Execute the POST request
         mockMvc.perform(post("/api/v1/groupAdmins/createGroupAdmin")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("username", "prabhu.murugesan@gmail.com")
                 .content(CommonUtils.asJsonString(groupAdminBean)))
                 // Validate the response code and content type
                 .andExpect(status().isCreated())

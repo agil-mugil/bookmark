@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.eng.stream.hackathon.bookmark.EntityNotFoundException;
 import com.eng.stream.hackathon.bookmark.models.Group;
+import com.eng.stream.hackathon.bookmark.models.GroupReference;
+import com.eng.stream.hackathon.bookmark.repositories.GroupReferenceRepository;
 import com.eng.stream.hackathon.bookmark.repositories.GroupRepository;
 
 @Service
@@ -15,14 +17,17 @@ public class GroupServiceImpl implements GroupService {
 	@Autowired
 	private GroupRepository groupRepository;
 	
+	@Autowired
+	private GroupReferenceRepository groupReferenceRepo;
+	
 	@Override
 	public Group createGroup(Group group) {
 		return groupRepository.save(group);
 	}
 
 	@Override
-	public List<Group> findAllGroups() {
-		List<Group> groups = groupRepository.findAll();
+	public List<Group> findAllGroups(String userId) {
+		List<Group> groups = groupRepository.findByGroupAdminsUserId(userId);
 		if(groups.isEmpty()) {
 			throw new EntityNotFoundException(Group.class);
 		}
@@ -46,6 +51,11 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public String[] groupTypes() {
 		return groupRepository.getGroupTypes();
+	}
+
+	@Override
+	public List<GroupReference> groupValues(String groupType) {
+		return groupReferenceRepo.findByGroupType(groupType);
 	}
 
 } 

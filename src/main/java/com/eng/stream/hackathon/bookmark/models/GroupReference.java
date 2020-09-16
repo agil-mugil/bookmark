@@ -2,32 +2,55 @@
 package com.eng.stream.hackathon.bookmark.models;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@IdClass(GroupReferenceId.class)
 @Table(name = "TGROUPREFDATAENG")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 @EntityListeners(AuditingEntityListener.class)
 public class GroupReference extends Auditable<String> implements Serializable {
+private static final long serialVersionUID = 2761046565822681668L;
 
-	private static final long serialVersionUID = -414141740190754960L;
-
-	@Column(name = "GROUPTYPE", nullable = false)
 	@Id
+	@Column(name = "GROUPTYPE", nullable = false)
 	private String groupType;
 
-	@Column(name = "GROUPVALUE", nullable = false)
 	@Id
+	@Column(name = "GROUPVALUE", nullable = false)
 	private String groupValue;
 
 	@Column(name = "GROUPVALUEDESC", nullable = false)
 	private String groupValueDesc;
+
+	public GroupReference() {
+		
+	}
+	public GroupReference(String groupType, String groupValue, String groupValueDesc) {
+		super();
+		this.groupType = groupType;
+		this.groupValue = groupValue;
+		this.groupValueDesc = groupValueDesc;
+	}
+	public GroupReference(String groupType, String groupValue, String groupValueDesc, String createdBy, Date createdDate) {
+		super();
+		this.groupType = groupType;
+		this.groupValue = groupValue;
+		this.groupValueDesc = groupValueDesc;
+		this.createdBy=createdBy;
+		this.createdDate =createdDate;
+	}
 
 	public String getGroupType() {
 		return groupType;
@@ -44,46 +67,19 @@ public class GroupReference extends Auditable<String> implements Serializable {
 	public void setGroupValue(String groupValue) {
 		this.groupValue = groupValue;
 	}
-
-	public GroupReference() {
-
+	
+	public String getGroupValueDesc() {
+		return groupValueDesc;
 	}
-
-	public GroupReference(String groupType, String groupValue) {
-		super();
-		this.groupType = groupType;
-		this.groupValue = groupValue;
+	public void setGroupValueDesc(String groupValueDesc) {
+		this.groupValueDesc = groupValueDesc;
 	}
-
+	
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((groupType == null) ? 0 : groupType.hashCode());
-		result = prime * result + ((groupValue == null) ? 0 : groupValue.hashCode());
-		return result;
+	public String toString() {
+		return "GroupReference [groupType=" + groupType + ", groupValue=" + groupValue + ", groupValueDesc="
+				+ groupValueDesc + "]";
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		GroupReference other = (GroupReference) obj;
-		if (groupType == null) {
-			if (other.groupType != null)
-				return false;
-		} else if (!groupType.equals(other.groupType))
-			return false;
-		if (groupValue == null) {
-			if (other.groupValue != null)
-				return false;
-		} else if (!groupValue.equals(other.groupValue))
-			return false;
-		return true;
-	}
+	
 
 }

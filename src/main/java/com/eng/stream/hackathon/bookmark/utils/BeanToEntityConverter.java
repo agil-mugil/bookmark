@@ -17,8 +17,10 @@ public class BeanToEntityConverter {
 	}
 	public static Group convertToEntity(GroupBean groupBean) {
 			Group group = new Group(groupBean.getGroupType(), groupBean.getGroupValue());
+			group.setCreatedBy(groupBean.getUsername());
 			GroupAdmin admin = new GroupAdmin();
 			admin.setUserId(group.getCreatedBy());
+			admin.setCreatedBy(group.getCreatedBy());
 			admin.setGroup(group);
 			List<GroupAdmin> adminGroups = new ArrayList<>();
 			adminGroups.add(admin);
@@ -31,6 +33,7 @@ public class BeanToEntityConverter {
 		admin.setUserId(groupAdminBean.getUserId());
 		Group group = new Group();
 		group.setGroupId(groupAdminBean.getGroupId());
+		admin.setCreatedBy(groupAdminBean.getUsername());
 		admin.setGroup(group);
 		return admin;
 }
@@ -43,6 +46,7 @@ public class BeanToEntityConverter {
 		card.setShortUrl(cardBean.getShortUrl());
 		card.setGroupId(cardBean.getGroupId());
 		card.setPublish(cardBean.getPublish());
+		card.setCreatedBy(cardBean.getUsername());
 		return card;
 	}
 }

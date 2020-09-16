@@ -82,6 +82,7 @@ public class BookmarksControllerTests {
         // Execute the POST request
         mockMvc.perform(post("/api/v1/bookmarks/createBookmark")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("username", "prabhu.murugesan@gmail.com")
                 .content(CommonUtils.asJsonString(bookmark1)))
                 // Validate the response code and content type
                 .andExpect(status().isCreated())

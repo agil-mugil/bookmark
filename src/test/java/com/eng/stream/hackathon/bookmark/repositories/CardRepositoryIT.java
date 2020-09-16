@@ -37,9 +37,11 @@ public class CardRepositoryIT {
 	
 	public Group createGroup() {
 		Group group = new Group("FT", "SNO");
+		group.setCreatedBy("prabhu.murugesan");
 		List<GroupAdmin> groupAdmins = new ArrayList<GroupAdmin>();
 		GroupAdmin groupAdmin = new GroupAdmin();
 		groupAdmin.setUserId("prabhu.murugesan");
+		groupAdmin.setCreatedBy("prabhu.murugesan");
 		groupAdmin.setGroup(group);
 		groupAdmins.add(groupAdmin);
 		group.setGroupAdmins(groupAdmins);
@@ -54,11 +56,13 @@ public class CardRepositoryIT {
 		Group group = createGroup();
 		Card card = new Card("https://www.baeldung.com/database-auditing-jpa","Spring",
 				"image/spring.img", "http://localhost:8080/bookmark/baeldung",group.getGroupId(), "N");
+		card.setCreatedBy("prabhu.murugesan");
 		Card saved =cardRepository.saveAndFlush(card);
 		assertNotNull(saved);
 		
 		Card cardTwo = new Card("https://www.fiftythree.com/","Spring",
 				"image/spring.img", "http://localhost:4200/fiftythree",group.getGroupId(), "Y");
+		cardTwo.setCreatedBy("prabhu.murugesan");
 		saved =cardRepository.saveAndFlush(cardTwo);
 		assertNotNull(saved);
 	}

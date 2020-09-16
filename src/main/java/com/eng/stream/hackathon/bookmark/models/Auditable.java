@@ -9,7 +9,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -23,7 +22,6 @@ import io.swagger.annotations.ApiModelProperty;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class Auditable<U> {
 
-    @CreatedBy
     @Column(name="OPECRE")
     @ApiModelProperty(hidden = true)
     protected U createdBy;
@@ -34,7 +32,6 @@ public abstract class Auditable<U> {
     @ApiModelProperty(hidden = true)
     protected Date createdDate;
 
-    @LastModifiedBy
     @Column(name="OPEMOD")
     @ApiModelProperty(hidden = true)
     protected U lastModifiedBy;
@@ -45,7 +42,7 @@ public abstract class Auditable<U> {
     @ApiModelProperty(hidden = true)
     protected Date lastModifiedDate;
 
-    @JsonIgnore
+    //@JsonIgnore
     public U getCreatedBy() {
         return createdBy;
     }
@@ -54,7 +51,7 @@ public abstract class Auditable<U> {
         this.createdBy = createdBy;
     }
 
-    @JsonIgnore
+    //@JsonIgnore
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -63,7 +60,7 @@ public abstract class Auditable<U> {
         this.createdDate = createdDate;
     }
 
-    @JsonIgnore
+    //@JsonIgnore
     public U getLastModifiedBy() {
         return lastModifiedBy;
     }
@@ -72,7 +69,7 @@ public abstract class Auditable<U> {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    @JsonIgnore
+    //@JsonIgnore
     public Date getLastModifiedDate() {
         return lastModifiedDate;
     }

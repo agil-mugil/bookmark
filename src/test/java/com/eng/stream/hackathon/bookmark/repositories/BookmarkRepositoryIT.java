@@ -30,6 +30,7 @@ public class BookmarkRepositoryIT {
 	public void testCreateBookmark() {
 		Bookmark bookmark = new Bookmark("https://www.baeldung.com/database-auditing-jpa", "http://localhost:8080/bookmark/baeldung", 
 				new Date(System.currentTimeMillis()+10));
+		bookmark.setCreatedBy("prabhu.murugesan");
 		Bookmark saved =  bookmarkRepository.save(bookmark);
 		assertNotNull(saved);
 		List<Bookmark> bookmarks = bookmarkRepository.findAll();

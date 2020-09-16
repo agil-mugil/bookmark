@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -48,9 +49,10 @@ public class BookmarksController {
 	
 	@PostMapping("/createBookmark")
 	@ApiOperation(value = "Create the bookmark", notes = "Service to create a bookmark", response =ResponseEntity.class )
-	public ResponseEntity<Bookmark> createBookmark(@RequestBody Bookmark bookmark) {
+	public ResponseEntity<Bookmark> createBookmark(@RequestBody Bookmark bookmark, @RequestHeader("username") String currentUser) {
 		try {
 			bookmark.setCreatedDate(new Date(System.currentTimeMillis()));
+			bookmark.setCreatedBy(currentUser);
             return ResponseEntity.created(new URI(CREATE_BOOKMARK))
                     .body(bookmarkService.createBookmark(bookmark));
         } catch (URISyntaxException e) {

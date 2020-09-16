@@ -48,10 +48,12 @@ class GroupsControllerTests {
 	 		List<Group> allGroups = new ArrayList<Group>();
 	 		allGroups.add(snoGroup);
 	 		allGroups.add(enoGroup);
-	        doReturn(allGroups).when(groupService).findAllGroups();
+	        doReturn(allGroups).when(groupService).findAllGroups(any());
 
 	        // Execute the GET request
-	        mockMvc.perform(get("/api/v1/groups"))
+	        mockMvc.perform(get("/api/v1/groups").
+	        		header("username", "prabhu.murugesan@gmail.com"))
+	        		
 	                // Validate the response code and content type
 	                .andExpect(status().isOk())
 	                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -78,6 +80,7 @@ class GroupsControllerTests {
 	        // Execute the POST request
 	        mockMvc.perform(post("/api/v1/groups/createGroup")
 	                .contentType(MediaType.APPLICATION_JSON)
+	                .header("username", "prabhu.murugesan@gmail.com")
 	                .content(CommonUtils.asJsonString(snoGroup)))
 	                // Validate the response code and content type
 	                .andExpect(status().isCreated())

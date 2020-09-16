@@ -34,9 +34,11 @@ class GroupAdminRepositoryIT {
 	@Order(1)
 	public void testCreateGroup() {
 		Group group = new Group("FT", "ENO");
+		group.setCreatedBy("anderson@gmail.com");
 		Group result = groupRepo.save(group);
 		GroupAdmin groupAdmin = new GroupAdmin();
 		groupAdmin.setUserId("anderson@gmail.com");
+		groupAdmin.setCreatedBy("anderson@gmail.com");
 		groupAdmin.setGroup(result);
 		GroupAdmin resultedAdmin = groupAdminRepository.save(groupAdmin);
 		assertNotNull(resultedAdmin);

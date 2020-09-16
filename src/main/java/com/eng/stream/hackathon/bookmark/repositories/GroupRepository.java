@@ -12,5 +12,6 @@ public interface GroupRepository extends JpaRepository<Group, Long>{
 	
 	@Query(value = "select distinct grouptype from tgrouprefdataeng order by grouptype", nativeQuery = true)
 	public String[] getGroupTypes();
+	public List<Group> findByGroupAdminsUserId(String userId);
 	 
 }

@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
@@ -23,7 +25,7 @@ import com.eng.stream.hackathon.bookmark.models.GroupAdmin;
 
 @DataJpaTest
 @TestMethodOrder(OrderAnnotation.class)
-//@AutoConfigureTestDatabase(replace = Replace.NONE)
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 public class GroupRespositoryIT {
 
 	@Autowired
@@ -36,10 +38,12 @@ public class GroupRespositoryIT {
 	@Rollback(false)
 	@Order(1)
 	public void testCreateGroup() {
-		Group group = new Group("FT", "ENO");
+		Group group = new Group("FT", "SCOW");
+		group.setCreatedBy("prabhu.murugesan");
 		List<GroupAdmin> groupAdmins = new ArrayList<GroupAdmin>();
 		GroupAdmin groupAdmin = new GroupAdmin();
 		groupAdmin.setUserId("suresh.k@gmail.com");
+		groupAdmin.setCreatedBy("prabhu.murugesan");
 		groupAdmin.setGroup(group);
 		groupAdmins.add(groupAdmin);
 		group.setGroupAdmins(groupAdmins);
@@ -49,6 +53,7 @@ public class GroupRespositoryIT {
 		System.out.println( saved.toString());
 		GroupAdmin groupAdmin2 = new GroupAdmin();
 		groupAdmin2.setUserId("james@gmail.com");
+		groupAdmin2.setCreatedBy("prabhu.murugesan");
 		groupAdmin2.setGroup(saved);
 		saved.getGroupAdmins().add(groupAdmin2);
 		saved = groupRepository.save(saved);
@@ -64,7 +69,7 @@ public class GroupRespositoryIT {
 	@Test
 	@Order(2)
 	public void testFindGroupByValueExists() {
-		String groupValue = "ENO";
+		String groupValue = "SCOW";
 		List<Group> groups = groupRepository.findByGroupValue(groupValue);
 		assertThat(groups.size()).isGreaterThan(0);
 		 assertThat(groups).extracting(Group::getGroupValue).contains(groupValue);
@@ -87,9 +92,9 @@ public class GroupRespositoryIT {
 	
 	@Test
 	@Rollback(false)
-	@Order(5)
+	@Order(7)
 	public void testDeleteGroup() {
-		String groupValue = "ENO";
+		String groupValue = "SCOW";
 		List<Group> groupList = groupRepository.findByGroupValue(groupValue);
 		Optional<Group> existingGroup = groupList.stream()
 	      .filter(group -> groupValue.equalsIgnoreCase(group.getGroupValue())).findFirst();
@@ -106,9 +111,18 @@ public class GroupRespositoryIT {
 	
 	
 	@Test
+	@Order(5)
 	public void testGroupTypes() {
 		String groupTypes[] = groupRepository.getGroupTypes();
 		assertThat(groupTypes.length).isEqualTo(3);
+	}
+	
+	@Test
+	@Order(6)
+	public void testGroupByAdmin() {
+		String userId="james@gmail.com";
+		List<Group> groupList  = groupRepository.findByGroupAdminsUserId(userId);
+		assertThat(groupList.size()).isGreaterThan(0);
 	}
 	
 }

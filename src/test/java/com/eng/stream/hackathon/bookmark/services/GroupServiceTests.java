@@ -40,7 +40,7 @@ class GroupServiceTests {
 		Group group = new Group("FT", "SNO");
 		groupList.add(group);
 	    Mockito.when(groupRepository.findByGroupValue("SNO")).thenReturn(groupList);
-	    Mockito.when(groupRepository.findAll()).thenReturn(groupList);
+	    Mockito.when(groupRepository.findByGroupAdminsUserId(any())).thenReturn(groupList);
 	}
 	
 	@Test
@@ -56,7 +56,7 @@ class GroupServiceTests {
 	@Test
 	@Order(2)
 	void testFindAllGroups() {
-		List<Group> groupList = groupService.findAllGroups();
+		List<Group> groupList = groupService.findAllGroups(any());
 		assertThat(groupList.size()).isGreaterThan(0);
 	}
 
@@ -80,8 +80,8 @@ class GroupServiceTests {
 	void testFindGroupAdminsWithNoEntityFound() {
 		try {
 			List<Group> groupList = new ArrayList<Group>();
-			doReturn(groupList).when(groupRepository).findAll();
-			groupService.findAllGroups();
+			doReturn(groupList).when(groupRepository).findByGroupAdminsUserId(any());
+			groupService.findAllGroups(any());
 			fail(" EntityNotFoundException exception not thrown");
 		} catch (EntityNotFoundException e) {
 			assertThat(e.getMessage()).isEqualTo("Group was not found for parameters {}");

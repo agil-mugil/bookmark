@@ -3,6 +3,7 @@ package com.eng.stream.hackathon.bookmark.models;
 public class GroupBean {
 	private String groupType;
 	private String groupValue;
+	private String username;
 	 
 	 public GroupBean() {
 		 super();
@@ -24,5 +25,13 @@ public class GroupBean {
 		this.groupType = groupType;
 		this.groupValue = groupValue;
 	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	
 	 
 }

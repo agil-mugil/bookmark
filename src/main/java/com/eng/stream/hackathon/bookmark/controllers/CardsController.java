@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +32,7 @@ public class CardsController {
 	private  static final String ALL_CARDS = "/api/v1/cards";
 	private  static final String CREATE_CARD = "/createCard";
 	private static final String CARD_BY_SHORTURL="/cardByShortUrl";
+	private static final String CARDS_BY_GROUP="/cardsByGroup";
 	
 	@GetMapping
 	@ApiOperation(value = "Get all the cards", notes = "This service is to get all the cards", response =ResponseEntity.class )
@@ -56,10 +58,24 @@ public class CardsController {
         }
 	}
 	
+	@GetMapping(CARDS_BY_GROUP)
+	@ApiOperation(value = "Get all the card belongs a group", notes = "This service is to get all group belongs a group", response =ResponseEntity.class )
+	public ResponseEntity<List<Card>> cardsByGroup(@RequestParam Long groupId) {
+		try {
+            return ResponseEntity.ok()
+                    .location((new URI(CARDS_BY_GROUP)))
+                    .body(cardService.findByPublishAndGroupId(groupId));
+        } catch (URISyntaxException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+	}
+	
+	
 	@PostMapping("/createCard")
 	@ApiOperation(value = "Create the Card", notes = "Service to create a card", response =ResponseEntity.class )
-	public ResponseEntity<Card> createBookmark(@RequestBody CardBean cardBean) {
+	public ResponseEntity<Card> createBookmark(@RequestBody CardBean cardBean,@RequestHeader("username") String currentUser) {
 		try {
+			cardBean.setUsername(currentUser);
             return ResponseEntity.created(new URI(CREATE_CARD))
                     .body(cardService.createCard(BeanToEntityConverter.convertToEntity(cardBean)));
         } catch (URISyntaxException e) {

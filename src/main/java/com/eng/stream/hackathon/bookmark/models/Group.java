@@ -2,7 +2,6 @@ package com.eng.stream.hackathon.bookmark.models;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,7 +17,6 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.eng.stream.hackathon.bookmark.audit.AuditorAwareImpl;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.swagger.annotations.ApiModel;
@@ -91,17 +89,15 @@ public class Group extends Auditable<String>{
 
 	public void setGroupAdmins(List<GroupAdmin> groupAdmins) {
 		this.groupAdmins = groupAdmins;
-		setGroupAdminUserId();
+		//setGroupAdminUserId();
 	}
 
-	private void setGroupAdminUserId() {
-		AuditorAwareImpl auditor = new AuditorAwareImpl();
-		Optional<String> currentUser = auditor.getCurrentAuditor();
-		if(currentUser.isPresent()) {
-			String userId = currentUser.get();
-			this.groupAdmins.get(0).setUserId(userId);
-		}
-	}
+	/*
+	 * private void setGroupAdminUserId() { AuditorAwareImpl auditor = new
+	 * AuditorAwareImpl(); Optional<String> currentUser =
+	 * auditor.getCurrentAuditor(); if(currentUser.isPresent()) { String userId =
+	 * currentUser.get(); this.groupAdmins.get(0).setUserId(userId); } }
+	 */
 	
 	public List<Card> getGroupCards() {
 		return groupCards;

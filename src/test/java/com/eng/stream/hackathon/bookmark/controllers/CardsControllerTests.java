@@ -96,6 +96,33 @@ public class CardsControllerTests {
                 .andExpect(jsonPath("$.publish", is("Y")));
     }
 
+	@Test
+    @DisplayName("GET /carsByGroup success")
+    void testGetCardsByGroups() throws Exception {
+		Card cardOne = new Card("https://www.baeldung.com/database-auditing-jpa","Spring",
+				"image/spring.img", "http://localhost:8080/bookmark/baeldung",1L, "N" );
+		
+		Card cardTwo = new Card("https://gitter.im/engineering-stream-hackathon/community#","Hackathon",
+				"image/spring.img", "http://localhost:8080/engineering-stream-hackathon",1L, "Y");
+		
+ 		List<Card> cards = new ArrayList<Card>();
+ 		cards.add(cardOne);
+ 		cards.add(cardTwo);
+        // Setup our mocked service
+        doReturn(cards).when(cardService).findByPublishAndGroupId(1L);
+
+        // Execute the GET request
+        mockMvc.perform(get("/api/v1/cards/cardsByGroup?groupId="+1L))
+        .andExpect(jsonPath("$", hasSize(2)))
+        .andExpect(jsonPath("$[0].bookmarkUrl", is("https://www.baeldung.com/database-auditing-jpa")))
+        .andExpect(jsonPath("$[0].shortUrl", is("http://localhost:8080/bookmark/baeldung")))
+        .andExpect(jsonPath("$[0].cardTitle", is("Spring")))
+        .andExpect(jsonPath("$[0].publish", is("N")))
+        .andExpect(jsonPath("$[1].bookmarkUrl", is("https://gitter.im/engineering-stream-hackathon/community#")))
+        .andExpect(jsonPath("$[1].shortUrl", is("http://localhost:8080/engineering-stream-hackathon")))
+        .andExpect(jsonPath("$[1].cardTitle", is("Hackathon")))
+        .andExpect(jsonPath("$[1].publish", is("Y")));
+    }
 
  	@Test
     @DisplayName("POST /api/v1/cards/createCard")
@@ -112,6 +139,7 @@ public class CardsControllerTests {
         // Execute the POST request
         mockMvc.perform(post("/api/v1/cards/createCard")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("username", "prabhu.murugesan@gmail.com")
                 .content(CommonUtils.asJsonString(cardBean)))
                 // Validate the response code and content type
                 .andExpect(status().isCreated())

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,8 +45,9 @@ public class GroupAdminsController {
 	
 	@PostMapping(CREATE_GROUP_ADMIN)
 	@ApiOperation(value = "Create the group admin", notes = "Service to create a admin of a group  in the system", response =ResponseEntity.class )
-	public ResponseEntity<GroupAdmin> createGroupAdmin(@RequestBody GroupAdminBean groupAdminBean) {
+	public ResponseEntity<GroupAdmin> createGroupAdmin(@RequestBody GroupAdminBean groupAdminBean,@RequestHeader("username") String currentUser) {
 		try {
+			groupAdminBean.setUsername(currentUser);
             return ResponseEntity.created(new URI(CREATE_GROUP_ADMIN))
                     .body(adminService.addGroupAdmin(BeanToEntityConverter.convertToEntity(groupAdminBean)));
         } catch (URISyntaxException e) {

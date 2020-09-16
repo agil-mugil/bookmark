@@ -9,7 +9,7 @@ public class CardBean {
 	private String shortUrl;
 	private Long groupId;
 	private String publish;
-	
+	private String username;
 	public CardBean() {
 		super();
 	}
@@ -65,6 +65,12 @@ public class CardBean {
 	}
 	public void setPublish(String publish) {
 		this.publish = publish;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 }
