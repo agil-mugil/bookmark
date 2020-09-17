@@ -17,5 +17,7 @@ public interface CardService {
 	public void deleteCard(long cardId);
 	
 	public Card findByShortUrl(String shortUrl);
+	
+	public Card publishCard(Long cardId,String currentUser);
 
 }

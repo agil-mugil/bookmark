@@ -2,6 +2,7 @@ package com.eng.stream.hackathon.bookmark.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,5 +77,14 @@ public class CardServiceImpl implements CardService {
 		}
 		return card;
 	}
+
+	@Override
+	public Card publishCard(Long cardId,String currentUser) {
+		Optional<Card> card = cardRepository.findById(cardId);
+		Card publishCard = card.get();
+		publishCard.setPublish("Y");
+		return cardRepository.save(publishCard);
+	}
+
 
 }

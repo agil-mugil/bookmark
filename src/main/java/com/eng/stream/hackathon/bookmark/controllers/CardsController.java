@@ -33,6 +33,7 @@ public class CardsController {
 	private  static final String CREATE_CARD = "/createCard";
 	private static final String CARD_BY_SHORTURL="/cardByShortUrl";
 	private static final String CARDS_BY_GROUP="/cardsByGroup";
+	private static final String PUBLISH_CARD="/publishCard";
 	
 	@GetMapping
 	@ApiOperation(value = "Get all the cards", notes = "This service is to get all the cards", response =ResponseEntity.class )
@@ -78,6 +79,16 @@ public class CardsController {
 			cardBean.setUsername(currentUser);
             return ResponseEntity.created(new URI(CREATE_CARD))
                     .body(cardService.createCard(BeanToEntityConverter.convertToEntity(cardBean)));
+        } catch (URISyntaxException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+	}
+	@PostMapping(PUBLISH_CARD)
+	@ApiOperation(value = "publishCard", notes = "Service to publish a card", response =ResponseEntity.class )
+	public ResponseEntity<Card> publishCard(@RequestBody Long cardId, @RequestHeader("username") String currentUser) {
+		try {
+            return ResponseEntity.created(new URI(PUBLISH_CARD))
+                    .body(cardService.publishCard(cardId,currentUser));
         } catch (URISyntaxException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

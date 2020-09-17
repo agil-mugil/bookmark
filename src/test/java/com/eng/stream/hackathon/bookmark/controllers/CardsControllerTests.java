@@ -152,4 +152,27 @@ public class CardsControllerTests {
                 .andExpect(jsonPath("$.cardTitle", is("Spring")))
                 .andExpect(jsonPath("$.publish", is("Y")));
  	}
+ 	
+ 	@Test
+    @DisplayName("POST /api/v1/cards/publishCard")
+    void testPublishCard() throws Exception {
+ 		Card returnedCard = new Card("https://www.baeldung.com/database-auditing-jpa","Spring",
+				"image/spring.img", "http://localhost:8080/bookmark/baeldung",1L, "Y");
+        doReturn(returnedCard).when(cardService).publishCard(any(),any());
+        returnedCard.setCardId(1L);
+        // Execute the POST request
+        mockMvc.perform(post("/api/v1/cards/publishCard")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("username", "prabhu.murugesan@gmail.com")
+                .content(CommonUtils.asJsonString(1L)))
+                // Validate the response code and content type
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                // Validate the returned fields
+                .andExpect(jsonPath("$.cardId", is(1)))
+                .andExpect(jsonPath("$.bookmarkUrl", is("https://www.baeldung.com/database-auditing-jpa")))
+                .andExpect(jsonPath("$.shortUrl", is("http://localhost:8080/bookmark/baeldung")))
+                .andExpect(jsonPath("$.cardTitle", is("Spring")))
+                .andExpect(jsonPath("$.publish", is("Y")));
+ 	}
 }

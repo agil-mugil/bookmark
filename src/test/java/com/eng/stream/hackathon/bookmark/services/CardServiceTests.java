@@ -9,6 +9,7 @@ import static org.mockito.Mockito.doReturn;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -98,7 +99,6 @@ public class CardServiceTests {
 			fail(" EntityNotFoundException exception not thrown");
 		} catch (EntityNotFoundException e) {
 			assertThat(e.getMessage()).isEqualTo("Card was not found for parameters {}");
-			System.out.println(e.getCause());
 		}
 	}
 	
@@ -125,7 +125,6 @@ public class CardServiceTests {
 			fail(" EntityNotFoundException exception not thrown");
 		} catch (EntityNotFoundException e) {
 			assertThat(e.getMessage()).isEqualTo("Card was not found for parameters {Publish=Y}");
-			System.out.println(e.getCause());
 		}
 	}
 	
@@ -149,8 +148,17 @@ public class CardServiceTests {
 			fail(" EntityNotFoundException exception not thrown");
 		} catch (EntityNotFoundException e) {
 			assertThat(e.getMessage()).isEqualTo("Card was not found for parameters {Short Url & Publish=http://localhost:4200/fiftythree & Y}");
-			System.out.println(e.getCause());
 		}
+	}
+	
+	@Test
+	void  testPublishCard() {
+		Optional<Card> card = Optional.of(new Card("https://www.fiftythree.com/","Spring",
+				"image/spring.img", "http://localhost:4200/fiftythree",1L, "N"));
+		doReturn(card).when(cardRepository).findById(any());
+		Card returnedCard = card.get();
+		doReturn(returnedCard).when(cardRepository).save(any());
+		assertNotNull(card);
 	}
 
 }
