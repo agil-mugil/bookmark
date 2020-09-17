@@ -43,6 +43,7 @@ public class BeanToEntityConverterTests {
 		CardBean  cardBean  = new CardBean();
 		cardBean.setBookmarkUrl("https://gitter.im/engineering-stream-hackathon/community#");
 		cardBean.setCardTitle("Spring");
+		cardBean.setCardDesc("Spring Desc");
 		cardBean.setImageUrl("image/spring.img");
 		cardBean.setShortUrl("http://localhost:8080/bookmark/engineering-stream-hackathon");
 		cardBean.setGroupId(10L);
@@ -53,6 +54,7 @@ public class BeanToEntityConverterTests {
 		assertNotNull(card);
 		assertEquals(cardBean.getBookmarkUrl(),card.getBookmarkUrl());
 		assertEquals(cardBean.getCardTitle(),card.getCardTitle());
+		assertEquals(cardBean.getCardDesc(),card.getCardDesc());
 		assertEquals(cardBean.getImageUrl(),card.getImageUrl());
 		assertEquals(cardBean.getShortUrl(),card.getShortUrl());
 		assertEquals(cardBean.getGroupId(),card.getGroupId());

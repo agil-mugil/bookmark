@@ -37,7 +37,7 @@ public class Card extends Auditable<String>{
 	@Column(name="CARDDESC", length=250, nullable=false, unique=false)
 	private String cardDesc;
 	
-	@Column(name="IMAGEURL", length=50, nullable=false, unique=false)
+	@Column(name="IMAGEURL", length=250, nullable=false, unique=false)
 	private String imageUrl;
 	
 	@Column(name="SHORTURL", length=250, nullable=false, unique=true)

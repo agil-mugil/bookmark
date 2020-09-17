@@ -41,7 +41,7 @@ public class BeanToEntityConverter {
 		Card card = new Card();
 		card.setBookmarkUrl(cardBean.getBookmarkUrl());
 		card.setCardTitle(cardBean.getCardTitle());
-		card.setCardDesc(cardBean.getCardTitle());
+		card.setCardDesc(cardBean.getCardDesc());
 		card.setImageUrl(cardBean.getImageUrl());
 		card.setShortUrl(cardBean.getShortUrl());
 		card.setGroupId(cardBean.getGroupId());
