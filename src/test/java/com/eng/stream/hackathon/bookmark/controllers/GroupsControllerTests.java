@@ -48,7 +48,7 @@ class GroupsControllerTests {
 	 		List<Group> allGroups = new ArrayList<Group>();
 	 		allGroups.add(snoGroup);
 	 		allGroups.add(enoGroup);
-	        doReturn(allGroups).when(groupService).findAllGroups(any());
+	        doReturn(allGroups).when(groupService).findAllGroups();
 
 	        // Execute the GET request
 	        mockMvc.perform(get("/api/v1/groups").

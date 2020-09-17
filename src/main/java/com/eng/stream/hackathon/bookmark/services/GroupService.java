@@ -8,7 +8,7 @@ import com.eng.stream.hackathon.bookmark.models.GroupReference;
 public interface GroupService {
 
 	public Group createGroup(Group group);
-	public List<Group> findAllGroups(String userId);
+	public List<Group> findAllGroups();
 	public void deleteGroup(Long groupId);
 	public List<Group> findByGroupValue(String groupValue);
 	public String[] groupTypes();

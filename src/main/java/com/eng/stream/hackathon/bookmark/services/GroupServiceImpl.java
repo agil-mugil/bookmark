@@ -26,8 +26,8 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public List<Group> findAllGroups(String userId) {
-		List<Group> groups = groupRepository.findByGroupAdminsUserId(userId);
+	public List<Group> findAllGroups() {
+		List<Group> groups = groupRepository.findAll();
 		if(groups.isEmpty()) {
 			throw new EntityNotFoundException(Group.class);
 		}

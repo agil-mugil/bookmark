@@ -37,11 +37,11 @@ public class GroupsController {
 	
 	@GetMapping
 	@ApiOperation(value = "Get all the groups", notes = "This service will get all the Groups available in the system", response =ResponseEntity.class )
-	public ResponseEntity<List<Group>> allGroups(@RequestHeader("username") String currentUser) {
+	public ResponseEntity<List<Group>> allGroups() {
 		try {
             return ResponseEntity.ok()
                     .location((new URI(ALL_GROUPS_MAPPING)))
-                    .body(groupService.findAllGroups(currentUser));
+                    .body(groupService.findAllGroups());
         } catch (URISyntaxException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
