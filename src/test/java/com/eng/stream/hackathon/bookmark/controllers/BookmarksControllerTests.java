@@ -26,6 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.eng.stream.hackathon.bookmark.models.Bookmark;
+import com.eng.stream.hackathon.bookmark.models.BookmarkBean;
 import com.eng.stream.hackathon.bookmark.services.BookmarkService;
 import com.eng.stream.hackathon.bookmark.utils.CommonUtils;
 
@@ -72,7 +73,7 @@ public class BookmarksControllerTests {
     @DisplayName("POST /api/v1/bookmarks/createBookmark")
     void testCreateBookmark() throws Exception {
         // Setup our mocked service
- 		Bookmark bookmark1 = new Bookmark("https://www.baeldung.com/database-auditing-jpa", "http://localhost:8080/bookmark/baeldung", 
+ 		BookmarkBean bookmarkBean = new BookmarkBean("https://www.baeldung.com/database-auditing-jpa", "http://localhost:8080/bookmark/baeldung", 
 				new Date(System.currentTimeMillis()+10));
  		Bookmark bookmarkToReturns =  new Bookmark("https://www.baeldung.com/database-auditing-jpa", "http://localhost:8080/bookmark/baeldung", 
 				new Date(System.currentTimeMillis()+10));
@@ -83,7 +84,7 @@ public class BookmarksControllerTests {
         mockMvc.perform(post("/api/v1/bookmarks/createBookmark")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("username", "prabhu.murugesan@gmail.com")
-                .content(CommonUtils.asJsonString(bookmark1)))
+                .content(CommonUtils.asJsonString(bookmarkBean)))
                 // Validate the response code and content type
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

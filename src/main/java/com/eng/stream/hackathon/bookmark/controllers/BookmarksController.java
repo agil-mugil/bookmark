@@ -2,7 +2,6 @@ package com.eng.stream.hackathon.bookmark.controllers;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eng.stream.hackathon.bookmark.EntityNotFoundException;
 import com.eng.stream.hackathon.bookmark.models.Bookmark;
+import com.eng.stream.hackathon.bookmark.models.BookmarkBean;
 import com.eng.stream.hackathon.bookmark.services.BookmarkService;
+import com.eng.stream.hackathon.bookmark.utils.BeanToEntityConverter;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -49,12 +50,11 @@ public class BookmarksController {
 	
 	@PostMapping("/createBookmark")
 	@ApiOperation(value = "Create the bookmark", notes = "Service to create a bookmark", response =ResponseEntity.class )
-	public ResponseEntity<Bookmark> createBookmark(@RequestBody Bookmark bookmark, @RequestHeader("username") String currentUser) {
+	public ResponseEntity<Bookmark> createBookmark(@RequestBody BookmarkBean bookmarkBean, @RequestHeader("username") String currentUser) {
 		try {
-			bookmark.setCreatedDate(new Date(System.currentTimeMillis()));
-			bookmark.setCreatedBy(currentUser);
+			bookmarkBean.setCurrentUser(currentUser);
             return ResponseEntity.created(new URI(CREATE_BOOKMARK))
-                    .body(bookmarkService.createBookmark(bookmark));
+                    .body(bookmarkService.createBookmark(BeanToEntityConverter.convertToEntity(bookmarkBean)));
         } catch (URISyntaxException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

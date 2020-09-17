@@ -22,7 +22,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.eng.stream.hackathon.bookmark.EntityNotFoundException;
+import com.eng.stream.hackathon.bookmark.models.Bookmark;
 import com.eng.stream.hackathon.bookmark.models.Card;
+import com.eng.stream.hackathon.bookmark.repositories.BookmarkRepository;
 import com.eng.stream.hackathon.bookmark.repositories.CardRepository;
 import com.eng.stream.hackathon.bookmark.repositories.GroupAdminRepository;
 
@@ -34,6 +36,8 @@ public class CardServiceTests {
 	
 	@MockBean
 	private CardRepository  cardRepository;
+	@MockBean
+	private BookmarkRepository bookmarkRepository;
 	
 	@MockBean
 	private GroupAdminRepository  adminRepo;
@@ -142,12 +146,14 @@ public class CardServiceTests {
 	void testFindCardByShortUrlWithNoEntityFound() {
 		try {
 			Card card = null;
+			Bookmark bookmark = null;
 			doReturn(card).when(cardRepository).findByShortUrlAndPublish(any(), any());
+			doReturn(bookmark).when(bookmarkRepository).findByShortUrl(any());
 			String shortUrl = "http://localhost:4200/fiftythree";
 			cardService.findByShortUrl(shortUrl);
 			fail(" EntityNotFoundException exception not thrown");
 		} catch (EntityNotFoundException e) {
-			assertThat(e.getMessage()).isEqualTo("Card was not found for parameters {Short Url & Publish=http://localhost:4200/fiftythree & Y}");
+			assertThat(e.getMessage()).isEqualTo("Bookmark was not found for parameters {shortUrl=http://localhost:4200/fiftythree}");
 		}
 	}
 	

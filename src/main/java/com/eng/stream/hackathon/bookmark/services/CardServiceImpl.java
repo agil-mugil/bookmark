@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eng.stream.hackathon.bookmark.EntityNotFoundException;
+import com.eng.stream.hackathon.bookmark.models.Bookmark;
 import com.eng.stream.hackathon.bookmark.models.Card;
+import com.eng.stream.hackathon.bookmark.repositories.BookmarkRepository;
 import com.eng.stream.hackathon.bookmark.repositories.CardRepository;
 import com.eng.stream.hackathon.bookmark.repositories.GroupAdminRepository;
+import com.eng.stream.hackathon.bookmark.utils.Helper;
 
 @Service
 public class CardServiceImpl implements CardService {
@@ -20,6 +23,9 @@ public class CardServiceImpl implements CardService {
 	
 	@Autowired
 	private GroupAdminRepository groupAdminRepository;
+	
+	@Autowired
+	private BookmarkRepository bookmarkRepository;
 	
 	@Override
 	public Card createCard(Card card) {
@@ -73,10 +79,17 @@ public class CardServiceImpl implements CardService {
 	public Card findByShortUrl(String shortUrl) {
 		Card card = cardRepository.findByShortUrlAndPublish(shortUrl, "Y");
 		if(card==null) {
-			throw new EntityNotFoundException(Card.class,"Short Url & Publish", shortUrl+" & Y");
+			Bookmark bookmark = bookmarkRepository.findByShortUrl(shortUrl);
+			if(bookmark==null) {
+				throw new EntityNotFoundException(Bookmark.class,"shortUrl", shortUrl);
+			}else {
+				card = Helper.generateCardFromBookmark(bookmark);
+			}
 		}
 		return card;
 	}
+
+	
 
 	@Override
 	public Card publishCard(Long cardId,String currentUser) {

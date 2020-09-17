@@ -3,6 +3,8 @@ package com.eng.stream.hackathon.bookmark.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.eng.stream.hackathon.bookmark.models.Bookmark;
+import com.eng.stream.hackathon.bookmark.models.BookmarkBean;
 import com.eng.stream.hackathon.bookmark.models.Card;
 import com.eng.stream.hackathon.bookmark.models.CardBean;
 import com.eng.stream.hackathon.bookmark.models.Group;
@@ -48,5 +50,13 @@ public class BeanToEntityConverter {
 		card.setPublish(cardBean.getPublish());
 		card.setCreatedBy(cardBean.getUsername());
 		return card;
+	}
+	public static Bookmark convertToEntity(BookmarkBean bookmarkBean) {
+		Bookmark bookmark = new Bookmark();
+		bookmark.setBookmarkUrl(bookmarkBean.getBookmarkUrl());
+		bookmark.setShortUrl(bookmarkBean.getShortUrl());
+		bookmark.setExpiryDate(bookmarkBean.getExpiryDate());
+		bookmark.setCreatedBy(bookmarkBean.getCurrentUser());
+		return bookmark;
 	}
 }

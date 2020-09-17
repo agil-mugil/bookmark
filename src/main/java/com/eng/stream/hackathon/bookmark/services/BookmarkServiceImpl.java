@@ -28,5 +28,11 @@ public class BookmarkServiceImpl implements BookmarkService {
 		}
 		return bookmarks;
 	}
+	
+	@Override
+	public Bookmark findByShortUrl(String shortUrl) {
+		Bookmark bookmark = bookmarkRepository.findByShortUrl(shortUrl);
+		return bookmark;
+	}
 
 }

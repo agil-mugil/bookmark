@@ -8,4 +8,5 @@ public interface BookmarkService {
 
 	public Bookmark createBookmark(Bookmark bookmark);
 	public List<Bookmark> getAllBookmarks();
+	public Bookmark findByShortUrl(String shortUrl);
 }

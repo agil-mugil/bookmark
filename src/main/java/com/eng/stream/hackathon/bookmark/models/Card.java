@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -48,6 +49,9 @@ public class Card extends Auditable<String>{
 	
 	@Column(name="PUBLISH",length=1,  nullable=false, unique=false)
 	private String publish;
+	
+	@Transient
+	private String expired;
 	
 	public Card() {
 		super();
@@ -127,6 +131,14 @@ public class Card extends Auditable<String>{
 
 	public void setPublish(String publish) {
 		this.publish = publish;
+	}
+
+	public String getExpired() {
+		return expired;
+	}
+
+	public void setExpired(String expired) {
+		this.expired = expired;
 	}
 
 	@Override

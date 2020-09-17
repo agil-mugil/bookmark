@@ -3,8 +3,12 @@ package com.eng.stream.hackathon.bookmark.utils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.sql.Date;
+
 import org.junit.jupiter.api.Test;
 
+import com.eng.stream.hackathon.bookmark.models.Bookmark;
+import com.eng.stream.hackathon.bookmark.models.BookmarkBean;
 import com.eng.stream.hackathon.bookmark.models.Card;
 import com.eng.stream.hackathon.bookmark.models.CardBean;
 import com.eng.stream.hackathon.bookmark.models.Group;
@@ -59,6 +63,19 @@ public class BeanToEntityConverterTests {
 		assertEquals(cardBean.getShortUrl(),card.getShortUrl());
 		assertEquals(cardBean.getGroupId(),card.getGroupId());
 		assertEquals(cardBean.getPublish(), card.getPublish());
+	}
+	
+	@Test 
+	public 	void testConvertToBookmarkEntity() {
+		BookmarkBean bookmarkBean = new BookmarkBean( "https://gitter.im/engineering-stream-hackathon/community#", 
+				"http://localhost:8080/bookmark/engineering-stream-hackathon",  new Date(System.currentTimeMillis()));
+		bookmarkBean.setCurrentUser("prabhu.murugesan");
+		Bookmark bookmark = BeanToEntityConverter.convertToEntity(bookmarkBean);
+		assertNotNull(bookmark);
+		assertEquals(bookmarkBean.getBookmarkUrl(), bookmark.getBookmarkUrl());
+		assertEquals(bookmarkBean.getShortUrl(), bookmark.getShortUrl());
+		assertEquals(bookmarkBean.getExpiryDate(), bookmark.getExpiryDate());
+		assertEquals(bookmarkBean.getCurrentUser(), bookmark.getCreatedBy());
 	}
 	
 }
