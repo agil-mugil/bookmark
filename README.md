@@ -13,22 +13,22 @@ Prabhu MURUGESAN
 
 Setup:
 
- 1. Clone the project bookmark
- 2. Build using JDK 11 and Maven
-  -- mvn clean
-  -- mvn clean install
+1. Clone the project bookmark
+2. Build using JDK 11 and Maven
+ -- mvn clean
+ -- mvn clean install
 	
- 3. Run the application
- 4. Access the application Swagger using (<http://localhost:8080/Swagger-ui.html>)
+3. Run the application
+4. Access the application Swagger using (<http://localhost:8080/Swagger-ui.html>)
 
 Heroku Swagger URL:
- 1. API - Swagger URL - (<https://managebookmark.herokuapp.com/swagger-ui.html>)
- 2. UI URL - (<https://manage-bookmark-ui.herokuapp.com/>)
+1. API - Swagger URL - (<https://managebookmark.herokuapp.com/swagger-ui.html>)
+2. UI URL - (<https://manage-bookmark-ui.herokuapp.com/>)
 
 bookmark-ui setup:
- 1. Clone the project bookmark-ui
- 2. go to root directory
- 3. execute npm install to get all the dependency
- 4. execute npm start (in the server.js specify the server url (API URL: (<http://localhost:8080/>) or the (<https://managebookmark.herokuapp.com)>)
- 5. Once the app is up and running access using the port specfied in the server.js file
- 6. Login with prompted option and access the functionality of the application
+1. Clone the project bookmark-ui
+2. go to root directory
+3. execute npm install to get all the dependency
+4. execute npm start (in the server.js specify the server url (API URL: (<http://localhost:8080/>) or the (<https://managebookmark.herokuapp.com)>)
+5. Once the app is up and running access using the port specfied in the server.js file
+6. Login with prompted option and access the functionality of the application
