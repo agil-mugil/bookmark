@@ -34,6 +34,7 @@ public class GroupAdminsController {
 	private  static final String ALL_GROUP_ADMINS = "/api/v1/groupAdmins";
 	private  static final String CREATE_GROUP_ADMIN = "/createGroupAdmin";
 	private  static final String DELETE_GROUP_ADMIN = "/deleteGroupAdmin";
+	private  static final String GROUP_ADMINCOUNT_USER = "/groupAdminCount";
 	@GetMapping
 	@ApiOperation(value = "Get all the group admins", notes = "This service will get all the admins of group", response =ResponseEntity.class )
 	public ResponseEntity<List<GroupAdmin>> allGroups(@RequestParam Long groupId) {
@@ -58,6 +59,16 @@ public class GroupAdminsController {
         } catch (SQLIntegrityConstraintViolationException e) {
         	 return ResponseEntity.badRequest().header("error", "Useralready part of admin group").build();
         } 
+	}
+	@GetMapping(GROUP_ADMINCOUNT_USER)
+	public ResponseEntity<Integer> getGroupAdminCount(@RequestParam Long groupId,@RequestHeader("username") String currentUser) {
+		try {
+            return ResponseEntity.ok()
+                    .location((new URI(GROUP_ADMINCOUNT_USER)))
+                    .body(adminService.findGroupAdminByUser(groupId,currentUser));
+        } catch (URISyntaxException e) {
+        	 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
 	}
 	
 	@DeleteMapping(DELETE_GROUP_ADMIN)

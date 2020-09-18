@@ -23,6 +23,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 import com.eng.stream.hackathon.bookmark.models.GroupAdmin;
 import com.eng.stream.hackathon.bookmark.models.GroupAdminBean;
@@ -92,4 +93,24 @@ public class GroupAdminsControllerTests {
                 .andExpect(jsonPath("$.userId", is("pmurugesan2012@gmail.com")));
     }
  	
+ 	@Test
+    @DisplayName("GET /admin count")
+    void testGetAllGroupAdminCount() throws Exception {
+        // Setup our mocked service
+ 	     Integer count = 1;
+        doReturn(count).when(groupAdminService).findGroupAdminByUser(any(),any());
+   
+        // Execute the GET request
+        mockMvc.perform(get("/api/v1/groupAdmins/groupAdminCount?groupId="+1L).
+        		header("username", "prabhu.murugesan@gmail.com"))
+                // Validate the response code and content type
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                // Validate headers
+                .andExpect(header().string(HttpHeaders.LOCATION, "/groupAdminCount"))
+
+                // Validate the returned fields
+                
+                .andExpect(jsonPath("$", is(1)));
+    }
 }

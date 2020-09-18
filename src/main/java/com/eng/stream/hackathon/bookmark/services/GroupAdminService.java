@@ -10,4 +10,5 @@ public interface GroupAdminService {
 	public GroupAdmin addGroupAdmin(GroupAdmin groupAdmin) throws SQLIntegrityConstraintViolationException;
 	public void deleteGroupAdmin(long groupId);
 	public List<GroupAdmin> getGroupAdmins(Long groupId);
+	public Integer findGroupAdminByUser(Long groupId, String currentUser);
 }

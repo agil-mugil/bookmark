@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +35,7 @@ public class CardsController {
 	private static final String CARD_BY_SHORTURL="/cardByShortUrl";
 	private static final String CARDS_BY_GROUP="/cardsByGroup";
 	private static final String PUBLISH_CARD="/publishCard";
+	private static final String DELETE_CARD="/deleteCard";
 	
 	@GetMapping
 	@ApiOperation(value = "Get all the cards", notes = "This service is to get all the cards", response =ResponseEntity.class )
@@ -93,4 +95,10 @@ public class CardsController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 	}
+	
+	@DeleteMapping(DELETE_CARD)
+    public ResponseEntity<?> deleteCard(@RequestParam Long cardId) {
+		cardService.deleteCard(cardId);
+        return ResponseEntity.ok().build();
+    }
 }

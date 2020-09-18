@@ -37,5 +37,10 @@ public class GroupAdminServiceImpl implements GroupAdminService {
 		}
 		return groupAdmins;
 	}
+	
+	public Integer findGroupAdminByUser(Long groupId, String currentUser) {
+		return groupAdminRepository.findCountByGroupAndUserId(groupId, currentUser);
+	}
+
 
 }
